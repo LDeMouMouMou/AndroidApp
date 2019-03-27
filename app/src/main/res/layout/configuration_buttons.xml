@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/button_newdevice"
+        android:layout_width="288dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bn_newdevice"/>
+
+    <Button
+        android:id="@+id/button_editconfiguration"
+        android:layout_width="288dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bn_editconfiguration"/>
+
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="288dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bn_startsession"/>
+
+
+</LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/button_start"
+        android:layout_width="288dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bn_start" />
+
+    <Button
+        android:id="@+id/button_cancel"
+        android:layout_width="288dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bn_cancel" />
+
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="288dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bn_result" />
+
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="288dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bn_back2config" />
+
+</FrameLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/button_new"
+        android:layout_width="320dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:background="@drawable/welcomebutton_new" />
+
+    <Button
+        android:id="@+id/button_record"
+        android:layout_width="320dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:background="@drawable/welcomebutton_record" />
+
+    <Button
+        android:id="@+id/button_tutorial"
+        android:layout_width="320dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:background="@drawable/welcomebutton_tutorial" />
+
+    <Button
+        android:id="@+id/button_settings"
+        android:layout_width="320dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:background="@drawable/welcomebutton_devices" />
+
+    <Button
+        android:id="@+id/button_information"
+        android:layout_width="320dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:background="@drawable/welcomebutton_information" />
+
+</LinearLayout>

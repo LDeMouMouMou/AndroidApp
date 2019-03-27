@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/navigation_overview"
+        android:icon="@drawable/result_overview"
+        android:title="@string/NavigationName_Overview" />
+
+    <item android:id="@+id/navigation_bias"
+        android:icon="@drawable/result_bias"
+        android:title="@string/NavigationName_Bias" />
+
+    <item android:id="@+id/navigation_data"
+        android:icon="@drawable/result_data"
+        android:title="@string/NavigationName_Data" />
+
+    <item android:id="@+id/navigation_publish"
+        android:icon="@drawable/result_publish"
+        android:title="@string/NavigationName_Publish" />
+
+</menu>

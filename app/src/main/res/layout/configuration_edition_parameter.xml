@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/bg_bluetoothlist">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/TypeSelectionHint"
+            android:textSize="14sp"
+            android:textColor="@color/colorBlack"
+            android:typeface="serif" />
+
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:typeface="serif"
+            android:textColor="@color/colorBrightBlue"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="320dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center"
+        android:background="@drawable/blackline" />
+
+    <CheckBox
+        android:id="@+id/NonstdCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/Parameter_Nonstandard"
+        android:textSize="16sp"
+        android:typeface="serif"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp">
+
+        <EditText
+            android:id="@+id/ConcaveDeviation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:inputType="number"
+            android:hint="@string/Parameter_HintE1"
+            android:textAlignment="center"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/ConvexDeviation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:inputType="number"
+            android:hint="@string/Parameter_HintE2"
+            android:textAlignment="center"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+    
+    <TextView
+        android:layout_width="320dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/blackline" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/EssentialParameters"
+            android:typeface="serif"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/editionQuestion1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/edition_question"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/headInsideRadius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:hint="@string/Parameter_InsideRadius"
+        android:inputType="number"
+        android:textColor="@color/colorBlack"
+        android:textAlignment="center"
+        android:typeface="serif"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/curvedSurfaceHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:hint="@string/Parameter_SurfaceHeight"
+        android:inputType="number"
+        android:textColor="@color/colorBlack"
+        android:textAlignment="center"
+        android:typeface="serif"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/headTotalHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:hint="@string/Parameter_TotalHeight"
+        android:inputType="number"
+        android:textColor="@color/colorBlack"
+        android:textAlignment="center"
+        android:typeface="serif"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="320dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/blackline" />
+
+    <CheckBox
+        android:id="@+id/EDCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/EllipticityDetection"
+        android:textSize="16sp"
+        android:typeface="serif"
+        android:checked="true" />
+
+    <EditText
+        android:id="@+id/padHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="@string/PadHeight"
+        android:inputType="number"
+        android:textColor="@color/colorBlack"
+        android:textAlignment="center"
+        android:typeface="serif"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/RMDCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/RandomData"
+            android:textSize="16sp"
+            android:typeface="serif" />
+
+        <Button
+            android:id="@+id/editionQuestion2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/edition_question"/>
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/SaveCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/SaveConfiguration"
+        android:textSize="16sp"
+        android:typeface="serif"
+        android:checked="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:text="@string/AutoSaveRemind"
+        android:typeface="sans"
+        android:textSize="12sp"/>
+
+</LinearLayout>

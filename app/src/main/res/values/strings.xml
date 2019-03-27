@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">MeasureIt</string>
+    <string name="Welcome">Welcome</string>
+    <string name="Selection">Select a Function to Start:</string>
+    <string name="Configuration">Configuration</string>
+    <string name="Scanner">Scanner</string>
+    <string name="Result">Result</string>
+    <string name="Confirm">Confirm</string>
+    <string name="SelectBluetoothDevice">Tap to Connect or Add Bluetooth Device:</string>
+    <string name="SelectConfiguration">Tap to Select or Configure Measuring Parameters:</string>
+    <string name="AddNewAlert">Enter Name for New Configuration</string>
+    <string name="AlertHint">Enter a Name</string>
+    <string name="Unavailable">Unavailable</string>
+    <string name="TypeSelectionHint">Tap to Select a Head Type:</string>
+    <string name="Parameter_Nonstandard">Nonstandard Head</string>
+    <string name="Parameter_HintE1">Concave Deviation(mm)</string>
+    <string name="Parameter_HintE2">Convex Deviation(mm)</string>
+    <string name="Parameter_InsideRadius">Enter Head Radius Inside(mm)</string>
+    <string name="Parameter_SurfaceHeight">Enter Curved Surface Height(mm)</string>
+    <string name="Parameter_TotalHeight">Enter Head Total Height(mm)</string>
+    <string name="EssentialParameters">Below parameters are Necessary:</string>
+    <string name="EllipticityDetection">Enable Ellipticity Detection</string>
+    <string name="PadHeight">Enter the Pad Height(mm)</string>
+    <string name="RandomData">Enable Random Measuring Data</string>
+    <string name="SaveConfiguration">Save this Configuration</string>
+    <string name="AutoSaveRemind">*Configuration saves automatically.</string>
+    <string name="VersionInfo">Version 2.0.0 Beta1</string>
+    <string name="WaitingStart">Real-Time Result will Show Here</string>
+    <string name="ProgressBeforeStart">Real-Time Progress will Show Here</string>
+    <string name="NavigationName_Overview">Overview</string>
+    <string name="NavigationName_Data">Data</string>
+    <string name="NavigationName_Bias">Bias</string>
+    <string name="NavigationName_Publish">Publish</string>
+    <string name="Settings">Settings</string>
+    <string name="BluetoothStatue">Bluetooth Statue:</string>
+    <string name="Receive">Receive Range:</string>
+</resources>

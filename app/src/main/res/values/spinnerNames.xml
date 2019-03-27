@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="typeSpinner">
+        <item>Select A Head Type Below</item>
+        <item>Ellipse</item>
+        <item>Round</item>
+        <item>Unknown</item>
+    </string-array>
+</resources>
