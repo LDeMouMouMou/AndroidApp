@@ -1,1 +1,3 @@
 # AndroidApp
+
+Used for graduation projuect, with bluetooth service test and input/output testing...

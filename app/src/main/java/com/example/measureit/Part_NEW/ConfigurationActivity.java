@@ -166,30 +166,6 @@ public class ConfigurationActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    // Automatic refresh on paired devices list
-    TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            Message message = new Message();
-            message.what = 1;
-            handler.sendMessage(message);
-        }
-    };
-
-    // Handler for timer
-    final Handler handler = new Handler(){
-      public void handleMessage(Message message){
-          switch (message.what){
-              case 1:
-                  showPairedList();
-                  break;
-          }
-          super.handleMessage(message);
-      }
-    };
-    */
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         switch (keyCode){
