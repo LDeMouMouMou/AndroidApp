@@ -174,7 +174,12 @@ public class BluetoothServer extends Service {
     }
 
     public boolean getConnectionState() {
-        return bluetoothSocket.isConnected();
+        if (bluetoothSocket != null) {
+            return bluetoothSocket.isConnected();
+        }
+        else {
+            return false;
+        }
     }
 
     public float getOneRandomDistanceNumber(float stdRadius) {

@@ -125,30 +125,29 @@ public class ConfigurationActivity extends AppCompatActivity {
                     nextAlertDialog1 = nextAlertBuilder1.create();
                     nextAlertDialog1.setCanceledOnTouchOutside(false);
                     nextAlertBuilder1.show();
-                }
-                /*
-                else if (!bluetoothServer.getConnectionState()){
-                    final AlertDialog.Builder nextAlertBuilder2 = new AlertDialog.Builder(ConfigurationActivity.this)
-                            .setCancelable(false)
-                            .setTitle("Device Not Established!")
-                            .setMessage("A device must be seleted before starting a measuring!")
-                            .setIcon(R.drawable.icon_alert)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    nextAlertDialog2.dismiss();
-                                }
-                            });
-                    nextAlertDialog2 = nextAlertBuilder2.create();
-                    nextAlertDialog2.setCanceledOnTouchOutside(false);
-                    nextAlertDialog2.show();
-                }
-                */
-                else {
-                    Intent nextIntent = new Intent(ConfigurationActivity.this, ScannerActivity.class);
-                    nextIntent.putExtra("selectedConfigurationName", selectedConfiguration);
-                    nextIntent.putExtra("selectedBluetoothDeviceName", selectedBluetoothDevice);
-                    startActivity(nextIntent);
+                } else {
+                    configurationSaver.configurationSaverInit(getApplicationContext(), true, selectedConfiguration);
+                    if (!configurationSaver.getBooleanParams("randomData") && !bluetoothServer.getConnectionState()) {
+                        final AlertDialog.Builder nextAlertBuilder2 = new AlertDialog.Builder(ConfigurationActivity.this)
+                                .setCancelable(false)
+                                .setTitle("Device Not Established!")
+                                .setMessage("A device must be seleted before starting a measuring! Or select random data mode!")
+                                .setIcon(R.drawable.icon_alert)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        nextAlertDialog2.dismiss();
+                                    }
+                                });
+                        nextAlertDialog2 = nextAlertBuilder2.create();
+                        nextAlertDialog2.setCanceledOnTouchOutside(false);
+                        nextAlertDialog2.show();
+                    } else {
+                        Intent nextIntent = new Intent(ConfigurationActivity.this, ScannerActivity.class);
+                        nextIntent.putExtra("selectedConfigurationName", selectedConfiguration);
+                        nextIntent.putExtra("selectedBluetoothDeviceName", selectedBluetoothDevice);
+                        startActivity(nextIntent);
+                    }
                 }
             }
         });
