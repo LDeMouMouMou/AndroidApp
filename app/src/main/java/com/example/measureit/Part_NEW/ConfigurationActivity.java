@@ -104,7 +104,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedConfiguration == null){
+                if (selectedConfiguration == null) {
                     final AlertDialog.Builder nextAlertBuilder1 = new AlertDialog.Builder(ConfigurationActivity.this)
                             .setCancelable(false)
                             .setTitle("Configuration Not Selected")
@@ -126,6 +126,7 @@ public class ConfigurationActivity extends AppCompatActivity {
                     nextAlertDialog1.setCanceledOnTouchOutside(false);
                     nextAlertBuilder1.show();
                 }
+                /*
                 else if (!bluetoothServer.getConnectionState()){
                     final AlertDialog.Builder nextAlertBuilder2 = new AlertDialog.Builder(ConfigurationActivity.this)
                             .setCancelable(false)
@@ -142,6 +143,7 @@ public class ConfigurationActivity extends AppCompatActivity {
                     nextAlertDialog2.setCanceledOnTouchOutside(false);
                     nextAlertDialog2.show();
                 }
+                */
                 else {
                     Intent nextIntent = new Intent(ConfigurationActivity.this, ScannerActivity.class);
                     nextIntent.putExtra("selectedConfigurationName", selectedConfiguration);
@@ -365,7 +367,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, Object> firstOne = configurationItems.get(0);
                 HashMap<String, Object> chosenOne = configurationItems.get(position);
-                selectedConfiguration = String.valueOf(chosenOne.get("name"));
+                selectedConfiguration = names[position];
                 configurationItems.set(0, chosenOne);
                 configurationItems.set(position, firstOne);
                 // configurationAdapter.notifyDataSetChanged();

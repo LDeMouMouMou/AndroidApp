@@ -177,6 +177,10 @@ public class BluetoothServer extends Service {
         return bluetoothSocket.isConnected();
     }
 
+    public float getOneRandomDistanceNumber(float stdRadius) {
+        return (float) (Math.random() + stdRadius - 0.5);
+    }
+
     public int getOneDistanceNumber() {
         int bytes;
         byte[] buf = new byte[1024];

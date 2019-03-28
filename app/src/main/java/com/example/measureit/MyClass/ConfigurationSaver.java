@@ -126,6 +126,13 @@ public class ConfigurationSaver {
         updateTime();
     }
 
+    public void updateRandomDataState(boolean isRandom) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("randomData", isRandom);
+        editor.apply();
+    }
+
     public void updateTime(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

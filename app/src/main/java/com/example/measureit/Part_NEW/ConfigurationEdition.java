@@ -154,15 +154,68 @@ public class ConfigurationEdition extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (paramsInspection()) {
-                    updateParams();
-                    startActivity(backIntent);
-                    finish();
+                if (RMDCheck.isChecked()){
+                    final AlertDialog.Builder randomAlertBuilder = new AlertDialog.Builder(ConfigurationEdition.this)
+                            .setCancelable(false)
+                            .setTitle("Alert!")
+                            .setMessage("Are you sure to use random data, all configuration will not be effected and saved!")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    randomDialog.dismiss();
+                                    configurationSaver.updateRandomDataState(true);
+                                    startActivity(backIntent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    RMDCheck.setChecked(false);
+                                    randomDialog.dismiss();
+                                }
+                            });
+                    randomDialog = randomAlertBuilder.create();
+                    randomDialog.setCanceledOnTouchOutside(false);
+                    randomDialog.show();
                 }
-                else {
+                else if (!paramsInspection()) {
                     Toast.makeText(ConfigurationEdition.this, "Error Saving! Please Check", Toast.LENGTH_SHORT)
                             .show();
                 }
+                else {
+                    updateParams();
+                    configurationSaver.updateRandomDataState(false);
+                    startActivity(backIntent);
+                    finish();
+                }
+                /*
+                if (!SaveCheck.isChecked()) {
+                    final AlertDialog.Builder saveDialogBuilder = new AlertDialog.Builder(ConfigurationEdition.this)
+                            .setTitle("Alert!")
+                            .setMessage("Are you sure to abort this configuration?")
+                            .setCancelable(false);
+                    saveDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            isPassed = false;
+                            saveDialog.dismiss();
+                            startActivity(backIntent);
+                            finish();
+                        }
+                    });
+                    saveDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SaveCheck.setChecked(true);
+                            saveDialog.dismiss();
+                        }
+                    });
+                    saveDialog = saveDialogBuilder.create();
+                    saveDialog.setCanceledOnTouchOutside(false);
+                    saveDialog.show();
+                }
+                */
             }
         });
     }
@@ -279,58 +332,6 @@ public class ConfigurationEdition extends AppCompatActivity {
         else {
             isPassed = false;
             padHeight.setError("Please Specify the Pad Height");
-        }
-        // If Random Data is Enabled, ask for confirmation
-        if (RMDCheck.isChecked()){
-            final AlertDialog.Builder randomAlertBuilder = new AlertDialog.Builder(ConfigurationEdition.this)
-                    .setCancelable(false)
-                    .setTitle("Alert!")
-                    .setMessage("Are you sure to use random data, all configuration will not be effected and saved!")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            isPassed = false;
-                            randomDialog.dismiss();
-                            startActivity(backIntent);
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            RMDCheck.setChecked(false);
-                            randomDialog.dismiss();
-                        }
-                    });
-            randomDialog = randomAlertBuilder.create();
-            randomDialog.setCanceledOnTouchOutside(false);
-            randomDialog.show();
-        }
-        // If SaveCheck is not clicked, ask
-        else if (!SaveCheck.isChecked()) {
-            final AlertDialog.Builder saveDialogBuilder = new AlertDialog.Builder(ConfigurationEdition.this)
-                    .setTitle("Alert!")
-                    .setMessage("Are you sure to abort this configuration?")
-                    .setCancelable(false);
-            saveDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    isPassed = false;
-                    saveDialog.dismiss();
-                    startActivity(backIntent);
-                    finish();
-                }
-            });
-            saveDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SaveCheck.setChecked(true);
-                    saveDialog.dismiss();
-                }
-            });
-            saveDialog = saveDialogBuilder.create();
-            saveDialog.setCanceledOnTouchOutside(false);
-            saveDialog.show();
         }
         return isPassed;
     }

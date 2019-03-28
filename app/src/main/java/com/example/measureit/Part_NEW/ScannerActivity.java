@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.measureit.MyClass.BluetoothServer;
+import com.example.measureit.MyClass.ConfigurationSaver;
 import com.example.measureit.MyClass.DataCalculation;
 import com.example.measureit.R;
 
@@ -56,7 +57,9 @@ public class ScannerActivity extends AppCompatActivity {
     public Button backButton;
     public Button nextButton;
     // Defination of Flags
+    public boolean isRandom;
     //
+    public ConfigurationSaver configurationSaver = new ConfigurationSaver();
     public DataCalculation dataCalculation = new DataCalculation();
     public BluetoothServer bluetoothServer;
     public BluetoothServer.BLEBinder bleBinder;
@@ -80,7 +83,8 @@ public class ScannerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
         this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);
-
+        String selectedConfigurationName = getIntent().getStringExtra("selectedConfigurationName");
+        configurationSaver.configurationSaverInit(getApplicationContext(), true, selectedConfigurationName);
         // Find View Group
         lineChartView = findViewById(R.id.ScannerChart);
         progressBar = findViewById(R.id.scannerProgress);
@@ -98,15 +102,14 @@ public class ScannerActivity extends AppCompatActivity {
         // Create a Async Task for Receiving Data
         final dataReceiver dataReceiver = new dataReceiver(ScannerActivity.this);
         bindService(new Intent(this, BluetoothServer.class), serviceConnection, Context.BIND_AUTO_CREATE);
+        isRandom = configurationSaver.getBooleanParams("randomData");
         // Set ClickListener of Start Button
-
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Only when the task is pending can the Start Button validate
                 // In fact, Start Button will not be viewed in other situation, just in case
-                if (dataReceiver.getStatus()==AsyncTask.Status.PENDING && bluetoothServer.getConnectionState()) {
+                if (dataReceiver.getStatus()==AsyncTask.Status.PENDING) {
                     dataReceiver.execute();
                     startButton.setVisibility(View.INVISIBLE);
                     cancelButton.setVisibility(View.VISIBLE);
@@ -254,12 +257,18 @@ public class ScannerActivity extends AppCompatActivity {
                     float sval = 0;
                     // Check if the task is already cancelled, prevent it from memory leak
                     if (!isCancelled()) {
-                        for (int j = 0; j <= repeatCount; j++) {
-                            bluetoothServer.sendCommand("1");
-                            Thread.sleep(200);
-                            sval += bluetoothServer.getOneDistanceNumber();
+                        if (!isRandom) {
+                            for (int j = 0; j <= repeatCount; j++) {
+                                bluetoothServer.sendCommand("1");
+                                Thread.sleep(200);
+                                sval += bluetoothServer.getOneDistanceNumber();
+                            }
+                            sval = sval / repeatCount;
                         }
-                        sval = sval / repeatCount;
+                        else {
+                            sval = bluetoothServer.getOneRandomDistanceNumber(stdRadius);
+                            Thread.sleep(500);
+                        }
                         float xval = (float) (Math.cos(Math.PI * (i - 1) * angleInterval / 180) * sval);
                         float yval = (float) (Math.sin(Math.PI * (i - 1) * angleInterval / 180) * sval);
                         // Calculate Progress ?Percent
