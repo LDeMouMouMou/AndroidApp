@@ -4,8 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="18dp"
     android:background="@drawable/bg_bluetoothlist">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:hint="@string/Parameter_HintE1"
             android:textAlignment="center"
             android:textSize="12sp"/>
@@ -69,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:hint="@string/Parameter_HintE2"
             android:textAlignment="center"
             android:textSize="12sp"/>
@@ -83,31 +84,6 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/blackline" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="@string/EssentialParameters"
-            android:typeface="serif"
-            android:textSize="16sp"
-            android:textColor="@color/colorBlack"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/editionQuestion1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/edition_question"/>
-
-    </LinearLayout>
-
     <EditText
         android:id="@+id/headInsideRadius"
         android:layout_width="wrap_content"
@@ -115,7 +91,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:hint="@string/Parameter_InsideRadius"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@color/colorBlack"
         android:textAlignment="center"
         android:typeface="serif"
@@ -128,7 +104,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:hint="@string/Parameter_SurfaceHeight"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@color/colorBlack"
         android:textAlignment="center"
         android:typeface="serif"
@@ -141,7 +117,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:hint="@string/Parameter_TotalHeight"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@color/colorBlack"
         android:textAlignment="center"
         android:typeface="serif"
@@ -171,7 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:hint="@string/PadHeight"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="@color/colorBlack"
         android:textAlignment="center"
         android:typeface="serif"
@@ -202,25 +178,79 @@
 
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/SaveCheck"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        android:layout_marginStart="18dp"
+        android:textColor="@color/colorBlack"
+        android:text="@string/pointNumberSeekBar"
+        android:typeface="serif"/>
+
+    <LinearLayout
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="5dp"
-        android:text="@string/SaveConfiguration"
-        android:textSize="16sp"
-        android:typeface="serif"
-        android:checked="true"/>
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/pointNumberBar"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/Widget.AppCompat.SeekBar"
+            android:progress="10"
+            android:max="100"/>
+
+        <TextView
+            android:id="@+id/pointNumberBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:typeface="serif"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:text="10"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        android:layout_marginStart="18dp"
+        android:textColor="@color/colorBlack"
+        android:text="@string/angleNumberSeekBar"
+        android:typeface="serif"/>
+
+    <LinearLayout
+        android:layout_width="330dp"
         android:layout_gravity="center"
-        android:text="@string/AutoSaveRemind"
-        android:typeface="sans"
-        android:textSize="12sp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/angleNumberBar"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/Widget.AppCompat.SeekBar"
+            android:progress="10"
+            android:max="180"/>
+
+        <TextView
+            android:id="@+id/angleNumberBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:typeface="serif"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:text="10"/>
+
+    </LinearLayout>
 
 </LinearLayout>

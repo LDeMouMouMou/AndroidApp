@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.measureit.MyClass.ConfigurationSaver;
@@ -33,13 +35,11 @@ public class ConfigurationEdition extends AppCompatActivity {
     // Buttons
     public Button clearButton;
     public Button exitButton;
-    public Button essentionQuestion;
     public Button RMDQuestion;
     // Checkboxes
     public CheckBox NonstdCheck; // Nonstandard Head
     public CheckBox EDCheck; // Ellipticity Detection
     public CheckBox RMDCheck; // Random Measuring Data
-    public CheckBox SaveCheck; // Save Configuration
     // EditTexts
     public EditText ConcaveDeviation;
     public EditText ConvexDeviation;
@@ -47,8 +47,12 @@ public class ConfigurationEdition extends AppCompatActivity {
     public EditText curvedSurfaceHeight; // Curved Surface Height
     public EditText headTotalHeight;
     public EditText padHeight;
+    // SeekBar and Textviews
+    public SeekBar pointBar;
+    public TextView pointText;
+    public SeekBar angleBar;
+    public TextView angleText;
     // AlertDialog
-    public AlertDialog saveDialog;
     public AlertDialog randomDialog;
     //
     public String name;
@@ -58,10 +62,6 @@ public class ConfigurationEdition extends AppCompatActivity {
     public List<String> typeList = new ArrayList<>();
     //
     public ConfigurationSaver configurationSaver;
-    //
-    public Intent backIntent;
-
-
 
 
     @Override
@@ -73,12 +73,10 @@ public class ConfigurationEdition extends AppCompatActivity {
         ifNew = getIntent().getBooleanExtra("ifNew", true);
         //
         configurationSaver = new ConfigurationSaver();
-        backIntent = new Intent(ConfigurationEdition.this, ConfigurationActivity.class);
         // Get CheckBoxes
         NonstdCheck = findViewById(R.id.NonstdCheck);
         EDCheck = findViewById(R.id.EDCheck);
         RMDCheck = findViewById(R.id.RMDCheck);
-        SaveCheck = findViewById(R.id.SaveCheck);
         // Get EditTexts
         ConcaveDeviation = findViewById(R.id.ConcaveDeviation);
         ConvexDeviation = findViewById(R.id.ConvexDeviation);
@@ -87,10 +85,14 @@ public class ConfigurationEdition extends AppCompatActivity {
         headTotalHeight = findViewById(R.id.headTotalHeight);
         padHeight = findViewById(R.id.padHeight);
         // Get Buttons
-        clearButton = findViewById(R.id.editionClear);
-        exitButton = findViewById(R.id.editionExit);
-        essentionQuestion = findViewById(R.id.editionQuestion1);
+        clearButton = findViewById(R.id.clearParams);
+        exitButton = findViewById(R.id.backConfiguration);
         RMDQuestion = findViewById(R.id.editionQuestion2);
+        // Get SeekBar and corresponding TextViews
+        pointBar = findViewById(R.id.pointNumberBar);
+        pointText = findViewById(R.id.pointNumberBarText);
+        angleBar = findViewById(R.id.angleNumberBar);
+        angleText = findViewById(R.id.angleNumberBarText);
         // Get Type Selection Spinner
         niceSpinner = findViewById(R.id.typeSpinner);
         typeList.add("Round");
@@ -107,7 +109,14 @@ public class ConfigurationEdition extends AppCompatActivity {
         }
         else{
             configurationSaver.configurationSaverInit(getApplicationContext(), true, name);
-            setDefaultFromSaver();
+            RMDCheck.setChecked(configurationSaver.getBooleanParams("randomData"));
+            if (!configurationSaver.getBooleanParams("randomData")) {
+                setDefaultFromSaver();
+            }
+            else {
+                setRandomDataView();
+                setDefaultFromSaver();
+            }
         }
         //
         niceSpinner.attachDataSource(typeList);
@@ -132,40 +141,17 @@ public class ConfigurationEdition extends AppCompatActivity {
         RMDCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (RMDCheck.isChecked()){
-                    SaveCheck.setChecked(false);
-                    SaveCheck.setClickable(false);
-                    SaveCheck.setTextColor(Color.parseColor("#C2C2C2"));
-                }
-                else {
-                    SaveCheck.setClickable(true);
-                    SaveCheck.setTextColor(Color.parseColor("#000000"));
-                }
-            }
-        });
-        //
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDefaultBlank();
-            }
-        });
-        //
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (RMDCheck.isChecked()){
+                if (isChecked) {
                     final AlertDialog.Builder randomAlertBuilder = new AlertDialog.Builder(ConfigurationEdition.this)
                             .setCancelable(false)
                             .setTitle("Alert!")
-                            .setMessage("Are you sure to use random data, all configuration will not be effected and saved!")
+                            .setMessage("Are you sure to use random data?\n" +
+                                    "All Parameters will be cleared.")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     randomDialog.dismiss();
-                                    configurationSaver.updateRandomDataState(true);
-                                    startActivity(backIntent);
-                                    finish();
+                                    setRandomDataView();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -179,43 +165,79 @@ public class ConfigurationEdition extends AppCompatActivity {
                     randomDialog.setCanceledOnTouchOutside(false);
                     randomDialog.show();
                 }
-                else if (!paramsInspection()) {
+                else {
+                    recoverFromRandomDataState();
+                    setDefaultBlank();
+                }
+            }
+        });
+        //
+        pointBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress == 0)
+                {
+                    Toast.makeText(getApplicationContext(), "No less than 1, set as 1", Toast.LENGTH_SHORT)
+                            .show();
+                    pointBar.setProgress(1);
+                    progress = 1;
+                }
+                pointText.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        angleBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress < 10) {
+                    angleBar.setProgress(10);
+                    progress = 10;
+                    Toast.makeText(getApplicationContext(), "Too small points leads more error, set as 10", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                angleText.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        // clearButton click listener
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDefaultBlank();
+            }
+        });
+        // exitbutton click listener
+        // Check if any error exists
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!paramsInspection()) {
                     Toast.makeText(ConfigurationEdition.this, "Error Saving! Please Check", Toast.LENGTH_SHORT)
                             .show();
                 }
                 else {
                     updateParams();
-                    configurationSaver.updateRandomDataState(false);
-                    startActivity(backIntent);
+                    startActivity(new Intent(ConfigurationEdition.this, ConfigurationActivity.class));
                     finish();
                 }
-                /*
-                if (!SaveCheck.isChecked()) {
-                    final AlertDialog.Builder saveDialogBuilder = new AlertDialog.Builder(ConfigurationEdition.this)
-                            .setTitle("Alert!")
-                            .setMessage("Are you sure to abort this configuration?")
-                            .setCancelable(false);
-                    saveDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            isPassed = false;
-                            saveDialog.dismiss();
-                            startActivity(backIntent);
-                            finish();
-                        }
-                    });
-                    saveDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            SaveCheck.setChecked(true);
-                            saveDialog.dismiss();
-                        }
-                    });
-                    saveDialog = saveDialogBuilder.create();
-                    saveDialog.setCanceledOnTouchOutside(false);
-                    saveDialog.show();
-                }
-                */
             }
         });
     }
@@ -238,32 +260,47 @@ public class ConfigurationEdition extends AppCompatActivity {
     }
 
     private void setDefaultFromSaver(){
-        typeChoose = configurationSaver.getIntParams("typeNum");
-        // Move the chosen type to the first position
-        String typeChosen = typeList.get(typeChoose);
-        String firstOne = typeList.get(0);
-        if (!typeChosen.equals(firstOne)){
-            typeList.set(0, typeChosen);
-            typeList.set(typeChoose, firstOne);
-        }
-        // Set NonstdCheck and two edittexts based on if its checked state
-        NonstdCheck.setChecked(configurationSaver.getBooleanParams("nonStdHead"));
-        if (NonstdCheck.isChecked()){
-            setNonStdText(true);
-            ConcaveDeviation.setText(String.valueOf(configurationSaver.getFloatParams("concave")));
-            ConvexDeviation.setText(String.valueOf(configurationSaver.getFloatParams("convex")));
+        if (!configurationSaver.getBooleanParams("randomData")) {
+            typeChoose = configurationSaver.getIntParams("typeNum");
+            // Move the chosen type to the first position
+            String typeChosen = typeList.get(typeChoose);
+            String firstOne = typeList.get(0);
+            if (!typeChosen.equals(firstOne)) {
+                typeList.set(0, typeChosen);
+                typeList.set(typeChoose, firstOne);
+            }
+            // Set NonstdCheck and two edittexts based on if its checked state
+            NonstdCheck.setChecked(configurationSaver.getBooleanParams("nonStdHead"));
+            if (NonstdCheck.isChecked()) {
+                setNonStdText(true);
+                ConcaveDeviation.setText(String.valueOf(configurationSaver.getFloatParams("concave")));
+                ConvexDeviation.setText(String.valueOf(configurationSaver.getFloatParams("convex")));
+            } else {
+                setNonStdText(false);
+            }
+            // Set other views
+            headInsideRadius.setText(String.valueOf(configurationSaver.getFloatParams("headRadius")));
+            curvedSurfaceHeight.setText(String.valueOf(configurationSaver.getFloatParams("curvedSurface")));
+            headTotalHeight.setText(String.valueOf(configurationSaver.getFloatParams("headTotal")));
+            padHeight.setText(String.valueOf(configurationSaver.getFloatParams("padHeight")));
+            EDCheck.setChecked(configurationSaver.getBooleanParams("ellipicityDetection"));
+            RMDCheck.setChecked(configurationSaver.getBooleanParams("randomData"));
+            pointBar.setProgress(configurationSaver.getIntParams("pointsProgress"));
+            pointText.setText(String.valueOf(configurationSaver.getIntParams("pointsProgress")));
+            angleBar.setProgress(configurationSaver.getIntParams("angleProgress"));
+            angleText.setText(String.valueOf(configurationSaver.getIntParams("angleProgress")));
         }
         else {
-            setNonStdText(false);
+            setRandomDataView();
+            headInsideRadius.setText(String.valueOf(configurationSaver.getFloatParams("stdRadius")));
+            curvedSurfaceHeight.setText(String.valueOf(configurationSaver.getFloatParams("minRadius")));
+            headTotalHeight.setText(String.valueOf(configurationSaver.getFloatParams("maxRadius")));
+            RMDCheck.setChecked(configurationSaver.getBooleanParams("randomData"));
+            pointBar.setProgress(configurationSaver.getIntParams("pointsProgress"));
+            pointText.setText(String.valueOf(configurationSaver.getIntParams("pointsProgress")));
+            angleBar.setProgress(configurationSaver.getIntParams("angleProgress"));
+            angleText.setText(String.valueOf(configurationSaver.getIntParams("angleProgress")));
         }
-        // Set other views
-        headInsideRadius.setText(String.valueOf(configurationSaver.getFloatParams("headRadius")));
-        curvedSurfaceHeight.setText(String.valueOf(configurationSaver.getFloatParams("curvedSurface")));
-        headTotalHeight.setText(String.valueOf(configurationSaver.getFloatParams("headTotal")));
-        padHeight.setText(String.valueOf(configurationSaver.getFloatParams("padHeight")));
-        EDCheck.setChecked(configurationSaver.getBooleanParams("ellipicityDetection"));
-        RMDCheck.setChecked(configurationSaver.getBooleanParams("randomData"));
-        SaveCheck.setChecked(configurationSaver.getBooleanParams("saveConfig"));
     }
 
     private void setDefaultBlank(){
@@ -271,69 +308,151 @@ public class ConfigurationEdition extends AppCompatActivity {
         NonstdCheck.setChecked(false);
         // ConcaveDeviation ConvexDeviation cannot be edited if the Nonstdcheck is false
         setNonStdText(NonstdCheck.isChecked());
+        validateCheckBox(NonstdCheck);
+        validateCheckBox(EDCheck);
         // Default EDCheck: true
         EDCheck.setChecked(true);
         // Default RMDCheck: false
         RMDCheck.setChecked(false);
-        // Default saveCheck: true
-        SaveCheck.setChecked(true);
         // Clear Contents
         headInsideRadius.setText("");
+        headInsideRadius.setHint("Enter Head Radius Inside(mm)");
         curvedSurfaceHeight.setText("");
+        curvedSurfaceHeight.setHint("Enter Curved Surface Height(mm)");
         headTotalHeight.setText("");
+        headTotalHeight.setHint("Enter Head Total Height(mm)");
         padHeight.setText("");
+        padHeight.setHint("Enter the Pad Height(mm)");
+    }
+
+    private void setRandomDataView() {
+        invalidateCheckBox(NonstdCheck);
+        setNonStdText(false);
+        invalidateCheckBox(EDCheck);
+        invalidateEditText(padHeight);
+        headInsideRadius.setHint("Enter the Standard Radius(mm)");
+        curvedSurfaceHeight.setHint("Enter the Maxium Radius(mm)");
+        headTotalHeight.setHint("Enter the Minimum Radius(mm)");
+    }
+
+    private void recoverFromRandomDataState() {
+        validateCheckBox(NonstdCheck);
+        validateCheckBox(EDCheck);
+        validateEditText(padHeight);
+    }
+
+    private void validateCheckBox(CheckBox checkBox) {
+        checkBox.setTextColor(getResources().getColor(R.color.colorBlack));
+        checkBox.setClickable(true);
+    }
+
+    private void invalidateCheckBox(CheckBox checkBox) {
+        checkBox.setChecked(false);
+        checkBox.setClickable(false);
+        checkBox.setTextColor(Color.parseColor("#C2C2C2"));
+    }
+
+    private void validateEditText(EditText editText) {
+        editText.setEnabled(true);
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.setTextColor(getResources().getColor(R.color.colorBlack));
+        editText.setTextSize(16);
+    }
+
+    private void invalidateEditText(EditText editText) {
+        editText.setError(null, null);
+        editText.setText(R.string.Unavailable_Random);
+        editText.setTextColor(Color.parseColor("#C2C2C2"));
+        editText.setEnabled(false);
+        editText.setFocusable(false);
+        editText.setFocusableInTouchMode(false);
     }
 
     private void updateParams(){
-        configurationSaver.addParams(typeChoose, NonstdCheck.isChecked(),
-                NonstdCheck.isChecked()?Float.parseFloat(ConcaveDeviation.getText().toString()):0,
-                NonstdCheck.isChecked()?Float.parseFloat(ConvexDeviation.getText().toString()):0,
-                Float.parseFloat(headInsideRadius.getText().toString()),
-                Float.parseFloat(curvedSurfaceHeight.getText().toString()), Float.parseFloat(headTotalHeight.getText().toString()),
-                EDCheck.isChecked(), Float.valueOf(String.valueOf(padHeight.getText())), RMDCheck.isChecked(),
-                SaveCheck.isChecked());
-    }
-
-    private boolean paramsInspection(){
-        isPassed = true;
-        // When Non-Standard Head is specified, parameters must be filled
-        if (NonstdCheck.isChecked()){
-            if (isNullEmptyBlank(ConcaveDeviation.getText().toString()))
-            {
-                isPassed = false;
-                ConcaveDeviation.setError("Needed!");
-            }
-            if (isNullEmptyBlank(ConvexDeviation.getText().toString()))
-            {
-                isPassed = false;
-                ConvexDeviation.setError("Needed!");
-            }
-        }
-        // Three Essential Parameters Check
-        EditText[] editTexts = new EditText[]{headInsideRadius, curvedSurfaceHeight, headTotalHeight};
-        for (int i = 0; i < editTexts.length; i++) {
-            if (isNullEmptyBlank(editTexts[i].getText().toString())){
-                isPassed = false;
-                editTexts[i].setError("This Parameter cannot be Null!");
-            }
-            else if (!isDoubleOrFloat(editTexts[i].getText().toString()))
-            {
-                isPassed = false;
-                editTexts[i].setError("Input Parameter is Invalid!");
-            }
-        }
-        // Pad Height can be null
-        if (!isNullEmptyBlank(padHeight.getText().toString())){
-            if (!isDoubleOrFloat(padHeight.getText().toString())){
-                isPassed = false;
-                padHeight.setError("Input Parameter is Invalid!");
-            }
+        if (!RMDCheck.isChecked()) {
+            configurationSaver.addParamsUnrandom(typeChoose, NonstdCheck.isChecked(),
+                    NonstdCheck.isChecked() ? Float.parseFloat(ConcaveDeviation.getText().toString()) : 0,
+                    NonstdCheck.isChecked() ? Float.parseFloat(ConvexDeviation.getText().toString()) : 0,
+                    Float.parseFloat(headInsideRadius.getText().toString()),
+                    Float.parseFloat(curvedSurfaceHeight.getText().toString()), Float.parseFloat(headTotalHeight.getText().toString()),
+                    EDCheck.isChecked(), Float.valueOf(String.valueOf(padHeight.getText())),
+                    pointBar.getProgress(), angleBar.getProgress());
         }
         else {
-            isPassed = false;
-            padHeight.setError("Please Specify the Pad Height");
+            configurationSaver.addParamsRandom(Float.parseFloat(headInsideRadius.getText().toString()),
+                    Float.parseFloat(curvedSurfaceHeight.getText().toString()),
+                    Float.parseFloat(headTotalHeight.getText().toString()),
+                    pointBar.getProgress(), angleBar.getProgress());
         }
-        return isPassed;
+    }
+
+    private boolean paramsInspection() {
+        isPassed = true;
+        // In non-random data mode
+        if (!RMDCheck.isChecked()) {
+            // When Non-Standard Head is specified, parameters must be filled
+            if (NonstdCheck.isChecked()) {
+                if (isNullEmptyBlank(ConcaveDeviation.getText().toString())) {
+                    isPassed = false;
+                    ConcaveDeviation.setError("Needed!");
+                }
+                if (isNullEmptyBlank(ConvexDeviation.getText().toString())) {
+                    isPassed = false;
+                    ConvexDeviation.setError("Needed!");
+                }
+            }
+            EditText[] editTexts = new EditText[]{headInsideRadius, curvedSurfaceHeight, headTotalHeight};
+            for (int i = 0; i < editTexts.length; i++) {
+                if (isNullEmptyBlank(editTexts[i].getText().toString())) {
+                    isPassed = false;
+                    editTexts[i].setError("This Parameter cannot be Null!");
+                } else if (!isDoubleOrFloat(editTexts[i].getText().toString())) {
+                    isPassed = false;
+                    editTexts[i].setError("Input Parameter is Invalid!");
+                }
+            }
+            if (!isNullEmptyBlank(padHeight.getText().toString())) {
+                if (!isDoubleOrFloat(padHeight.getText().toString())) {
+                    isPassed = false;
+                    padHeight.setError("Input Parameter is Invalid!");
+                }
+            } else {
+                isPassed = false;
+                padHeight.setError("Please Specify the Pad Height");
+            }
+            return isPassed;
+        }
+        // In random data Mode
+        else {
+            // Three Essential Parameters Check
+            EditText[] editTexts = new EditText[]{headInsideRadius, curvedSurfaceHeight, headTotalHeight};
+            for (int i = 0; i < editTexts.length; i++) {
+                if (isNullEmptyBlank(editTexts[i].getText().toString())) {
+                    isPassed = false;
+                    editTexts[i].setError("This Parameter cannot be Null!");
+                } else if (!isDoubleOrFloat(editTexts[i].getText().toString())) {
+                    isPassed = false;
+                    editTexts[i].setError("Input Parameter is Invalid!");
+                }
+            }
+            float stdRadius = Float.parseFloat(headInsideRadius.getText().toString());
+            float maxRadius = Float.parseFloat(curvedSurfaceHeight.getText().toString());
+            float minRadius = Float.parseFloat(headTotalHeight.getText().toString());
+            if (minRadius > maxRadius) {
+                isPassed = false;
+                headTotalHeight.setError("This Cannot be larger than Maximum!");
+            }
+            if (minRadius > stdRadius) {
+                isPassed = false;
+                headTotalHeight.setError("This Cannot be larger than Standard!");
+            }
+            if (maxRadius < stdRadius) {
+                isPassed = false;
+                headInsideRadius.setError("This Cannot be larger than Maximum!");
+            }
+            return isPassed;
+        }
     }
 
     private void setNonStdText(boolean isAvailable){

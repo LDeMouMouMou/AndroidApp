@@ -9,6 +9,4 @@
 
     <include layout="@layout/configuration_edition_parameter" />
 
-    <include layout="@layout/configuration_edition_buttons" />
-
 </LinearLayout>

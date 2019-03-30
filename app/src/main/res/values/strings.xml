@@ -11,6 +11,7 @@
     <string name="AddNewAlert">Enter Name for New Configuration</string>
     <string name="AlertHint">Enter a Name</string>
     <string name="Unavailable">Unavailable</string>
+    <string name="Unavailable_Random">Unavailable in Random Mode</string>
     <string name="TypeSelectionHint">Tap to Select a Head Type:</string>
     <string name="Parameter_Nonstandard">Nonstandard Head</string>
     <string name="Parameter_HintE1">Concave Deviation(mm)</string>
@@ -34,4 +35,7 @@
     <string name="Settings">Settings</string>
     <string name="BluetoothStatue">Bluetooth Statue:</string>
     <string name="Receive">Receive Range:</string>
+    <string name="pointNumberSeekBar">Number of points used for calculation:</string>
+    <string name="angleNumberSeekBar">Total points, more points means less interval:</string>
+
 </resources>

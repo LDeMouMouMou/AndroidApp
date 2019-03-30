@@ -6,6 +6,6 @@
 
     <include layout="@layout/settings_title" />
 
-    <include layout="@layout/settings_test" />
+    <include layout="@layout/settings_density" />
 
 </LinearLayout>

@@ -9,10 +9,7 @@ import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -20,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.measureit.MyClass.BluetoothServer;
 import com.example.measureit.MyClass.ConfigurationSaver;
@@ -50,7 +46,7 @@ public class ScannerActivity extends AppCompatActivity {
     public List<AxisValue> mAxisXValues = new ArrayList<>();
     // Defination of Layout View Group
     public ProgressBar progressBar;
-    public TextView PrgressText;
+    public TextView ProgressText;
     public TextView resultText;
     public Button startButton;
     public Button cancelButton;
@@ -78,6 +74,7 @@ public class ScannerActivity extends AppCompatActivity {
     };
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -88,7 +85,7 @@ public class ScannerActivity extends AppCompatActivity {
         // Find View Group
         lineChartView = findViewById(R.id.ScannerChart);
         progressBar = findViewById(R.id.scannerProgress);
-        PrgressText = findViewById(R.id.progressText);
+        ProgressText = findViewById(R.id.progressText);
         resultText = findViewById(R.id.resultText);
         startButton = findViewById(R.id.button_start);
         cancelButton = findViewById(R.id.button_cancel);
@@ -103,6 +100,18 @@ public class ScannerActivity extends AppCompatActivity {
         final dataReceiver dataReceiver = new dataReceiver(ScannerActivity.this);
         bindService(new Intent(this, BluetoothServer.class), serviceConnection, Context.BIND_AUTO_CREATE);
         isRandom = configurationSaver.getBooleanParams("randomData");
+        String resultTextString = "Click Button Below to Start Measuring\n";
+        resultTextString += "Mode: ";
+        resultTextString += isRandom?"Randomly Simulation\n":"Real-Time Receiving\n";
+        resultTextString += configurationSaver.getIntParams("pointsProgress")
+                +" Data Once Measuring\n";
+        resultTextString += configurationSaver.getIntParams("angleProgress")
+                +" Points In a 180 Degrees Measuring\n";
+        resultTextString += "Total Data Count: "
+                +configurationSaver.getIntParams("pointsProgress")*configurationSaver.getIntParams("angleProgress")+"\n";
+        resultTextString += "Radius Range From "+configurationSaver.getFloatParams("minRadius")+" to "
+                +configurationSaver.getFloatParams("maxRadius")+" Center at "+configurationSaver.getFloatParams("stdRadius");
+        resultText.setText(resultTextString);
         // Set ClickListener of Start Button
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,45 +251,62 @@ public class ScannerActivity extends AppCompatActivity {
             this.activityWeakReference = new WeakReference<>(scannerActivity);
         }
         @Override
-        protected String doInBackground(String... params){
+        protected String doInBackground(String... params) {
             try {
-                int totalCount = 20;
-                int repeatCount = 5;
-                float progressDisplay;
-                float stdRadius = 10;
-                dataCalculation.addStdRadius(stdRadius);
-                // Angle Interval for Measuring Depends on the Total Points
-                float angleInterval = (float) 180/(totalCount-1);
-                dataCalculation.clearOriginalData();
-                Thread.sleep(500);
-                for (int i = 1; i <= totalCount; i++) {
-                    float sval = 0;
-                    // Check if the task is already cancelled, prevent it from memory leak
-                    if (!isCancelled()) {
-                        if (!isRandom) {
+                final int totalCount = configurationSaver.getIntParams("angleProgress");
+                final int repeatCount = configurationSaver.getIntParams("pointsProgress");
+                if (isRandom) {
+                    float progressDisplay;
+                    float stdRadius = configurationSaver.getFloatParams("stdRadius");
+                    float maxRadius = configurationSaver.getFloatParams("maxRadius");
+                    float minRadius = configurationSaver.getFloatParams("minRadius");
+                    dataCalculation.addStdRadius(stdRadius);
+                    // Angle Interval for Measuring Depends on the Total Points
+                    float angleInterval = (float) 180 / (totalCount - 1);
+                    dataCalculation.clearOriginalData();
+                    for (int i = 1; i <= totalCount; i++) {
+                        float sval = 0;
+                        // Check if the task is already cancelled, prevent it from memory leak
+                        if (!isCancelled()) {
                             for (int j = 0; j <= repeatCount; j++) {
-                                bluetoothServer.sendCommand("1");
-                                Thread.sleep(200);
-                                sval += bluetoothServer.getOneDistanceNumber();
+                                sval += (float) (Math.random()*(maxRadius-minRadius) + minRadius);
                             }
                             sval = sval / repeatCount;
+                            float xval = (float) (Math.cos(Math.PI * (i - 1) * angleInterval / 180) * sval);
+                            float yval = (float) (Math.sin(Math.PI * (i - 1) * angleInterval / 180) * sval);
+                            progressDisplay = (float) (i * 100.0 / totalCount);
+                            publishProgress(progressDisplay, sval, xval, yval, (i - 1) * angleInterval, (float) i, (float) totalCount);
+                            Thread.sleep(200);
                         }
-                        else {
-                            sval = bluetoothServer.getOneRandomDistanceNumber(stdRadius);
-                            Thread.sleep(500);
-                        }
-                        float xval = (float) (Math.cos(Math.PI * (i - 1) * angleInterval / 180) * sval);
-                        float yval = (float) (Math.sin(Math.PI * (i - 1) * angleInterval / 180) * sval);
-                        // Calculate Progress ?Percent
-                        progressDisplay = (float) (i * 100.0 / totalCount);
-                        // Update UI
-                        publishProgress(progressDisplay, sval, xval, yval, (i - 1) * angleInterval);
-                        // Too short sleep duration may cause fatal error
-                        Thread.sleep(100);
                     }
                 }
-                } catch (InterruptedException e){
-                    e.printStackTrace();
+                else {
+                    float progressDisplay;
+                    float stdRadius = (float) 10.0;
+                    dataCalculation.addStdRadius(stdRadius);
+                    // Angle Interval for Measuring Depends on the Total Points
+                    float angleInterval = (float) 180 / (totalCount - 1);
+                    bluetoothServer.sendCommand("1");
+                    Thread.sleep(200);
+                    for (int i = 1; i <= totalCount; i++) {
+                        float sval = 0;
+                        if (!isCancelled()) {
+                            for (int j = 0; j <= repeatCount; j++) {
+                                sval += (float) bluetoothServer.getOneDistanceNumber();
+                                bluetoothServer.sendCommand("1");
+                                Thread.sleep(200);
+                            }
+                            sval = sval / repeatCount;
+                            float xval = (float) (Math.cos(Math.PI * (i - 1) * angleInterval / 180) * sval);
+                            float yval = (float) (Math.sin(Math.PI * (i - 1) * angleInterval / 180) * sval);
+                            progressDisplay = (float) (i * 100.0 / totalCount);
+                            publishProgress(progressDisplay, sval, xval, yval, (i - 1) * angleInterval);
+                            Thread.sleep(200);
+                        }
+                    }
+                }
+            } catch(InterruptedException e){
+                e.printStackTrace();
             }
             return null;
         }
@@ -288,7 +314,9 @@ public class ScannerActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Float... params){
             dataCalculation.addData(params[1], params[2], params[3]);
-            PrgressText.setText("Receiving Data..."+params[0]+"%");
+            String progressTextString = "Receiving Data..."+Math.round(params[0]*100)/100.0+"%   ";
+            progressTextString += params[5].intValue()+" out of "+params[6].intValue();
+            ProgressText.setText(progressTextString);
             progressBar.setProgress(params[0].intValue());
             initLineChart(params[2], params[3]);
             // lsr[] includes Circle Center Coordinate (lsr[0], lsr[1]) and Radius(lsr[2])
@@ -317,8 +345,14 @@ public class ScannerActivity extends AppCompatActivity {
         }
         @Override
         protected void onCancelled(){
-            PrgressText.setText("Measuring Cancelled");
+            ProgressText.setText("Measuring Cancelled");
             progressBar.setProgress(0);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
     }
 }

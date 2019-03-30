@@ -104,9 +104,9 @@ public class ConfigurationSaver {
     }
 
     // Now the configuration is created, and the saverName is specified
-    public void addParams(int typeNum, boolean nonStdHead, float concave, float convex,
-                          float headRadius, float curvedSurface, float headTotal,
-                          boolean ellipicityDetection, float padHeight, boolean randomData, boolean saveConfig) {
+    public void addParamsUnrandom(int typeNum, boolean nonStdHead, float concave, float convex,
+                                  float headRadius, float curvedSurface, float headTotal,
+                                  boolean ellipicityDetection, float padHeight, int pointsProgress, int angleProgress) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("typeNum", typeNum);
@@ -120,20 +120,26 @@ public class ConfigurationSaver {
         editor.putFloat("headTotal", headTotal);
         editor.putBoolean("ellipicityDetection", ellipicityDetection);
         editor.putFloat("padHeight", padHeight);
-        editor.putBoolean("randomData", randomData);
-        editor.putBoolean("saveConfig", saveConfig);
+        editor.putBoolean("randomData", false);
+        editor.putInt("pointsProgress", pointsProgress);
+        editor.putInt("angleProgress", angleProgress);
         editor.apply();
         updateTime();
     }
 
-    public void updateRandomDataState(boolean isRandom) {
+    public void addParamsRandom(float stdRadius, float minRadius, float maxRadius, int pointsProgress, int angleProgress) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("randomData", isRandom);
+        editor.putFloat("stdRadius", stdRadius);
+        editor.putFloat("minRadius", minRadius);
+        editor.putFloat("maxRadius", maxRadius);
+        editor.putBoolean("randomData", true);
+        editor.putInt("pointsProgress", pointsProgress);
+        editor.putInt("angleProgress", angleProgress);
         editor.apply();
     }
 
-    public void updateTime(){
+    private void updateTime(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Calendar calendar = Calendar.getInstance();
@@ -158,6 +164,12 @@ public class ConfigurationSaver {
                 return sharedPreferences.getFloat("headTotal", 0);
             case "padHeight":
                 return sharedPreferences.getFloat("padHeight", 0);
+            case "stdRadius":
+                return sharedPreferences.getFloat("stdRadius", 10);
+            case "minRadius":
+                return sharedPreferences.getFloat("minRadius", 9);
+            case "maxRadius":
+                return sharedPreferences.getFloat("maxRadius", 11);
         }
         return -1;
     }
@@ -165,15 +177,13 @@ public class ConfigurationSaver {
     // Get the Boolean Parameters(CheckBoxes)
     public Boolean getBooleanParams(String type){
         SharedPreferences sharedPreferences = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
-        switch (type){
+        switch (type) {
             case "nonStdHead":
                 return sharedPreferences.getBoolean("nonStdHead", false);
             case "ellipicityDetection":
                 return sharedPreferences.getBoolean("ellipicityDetection", false);
             case "randomData":
                 return sharedPreferences.getBoolean("randomData", false);
-            case "saveConfig":
-                return sharedPreferences.getBoolean("saveConfig", true);
         }
         return true;
     }
@@ -184,6 +194,10 @@ public class ConfigurationSaver {
         switch (type){
             case "typeNum":
                 return sharedPreferences.getInt("typeNum", 0);
+            case "pointsProgress":
+                return sharedPreferences.getInt("pointsProgress", 1);
+            case "angleProgress":
+                return sharedPreferences.getInt("angleProgress", 10);
         }
         return 0;
     }
