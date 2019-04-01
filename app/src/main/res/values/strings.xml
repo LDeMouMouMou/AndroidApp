@@ -5,6 +5,7 @@
     <string name="Configuration">Configuration</string>
     <string name="Scanner">Scanner</string>
     <string name="Result">Result</string>
+    <string name="Record">Record</string>
     <string name="Confirm">Confirm</string>
     <string name="SelectBluetoothDevice">Tap to Connect or Add Bluetooth Device:</string>
     <string name="SelectConfiguration">Tap to Select or Configure Measuring Parameters:</string>
@@ -37,5 +38,10 @@
     <string name="Receive">Receive Range:</string>
     <string name="pointNumberSeekBar">Number of points used for calculation:</string>
     <string name="angleNumberSeekBar">Total points, more points means less interval:</string>
+    <string name="Pop_View">VIEW</string>
+    <string name="Pop_Info">INFO</string>
+    <string name="Pop_Del">DELETE</string>
+    <string name="Pop_Export">EXPORT</string>
+    <string name="Pop_Cancel">Cancel</string>
 
 </resources>

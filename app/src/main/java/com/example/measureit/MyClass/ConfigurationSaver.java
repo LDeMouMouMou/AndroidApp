@@ -14,8 +14,7 @@ public class ConfigurationSaver {
     //
     private Context context;
     private String saverName;
-    //
-    private String[] typeArray = new String[]{"Round", "Ellipicity", "Mixed", "Unknown"};
+    // private String[] typeArray = new String[]{"Round", "Ellipicity", "Mixed", "Unknown"};
 
     //
     public void configurationSaverInit(Context inputContext, boolean isExist, String existSaverName){
@@ -25,10 +24,8 @@ public class ConfigurationSaver {
         }
     }
 
-    // Positive Sequence based on created time
-    public String[] getConfigurationNameList(){
+    public String[] getConfigurationNameList() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("configurationList2", Context.MODE_PRIVATE);
-        // SharedPreferences.Editor editor = sharedPreferences.edit();
         Map<String, ?> sharedPreferencesAll = sharedPreferences.getAll();
         List<String> allSaverName = new ArrayList<>();
         for (int i = 0; i < sharedPreferencesAll.size(); i++){
@@ -36,7 +33,6 @@ public class ConfigurationSaver {
                 allSaverName.add(sharedPreferences.getString("saverName" + i, ""));
             }
         }
-        // editor.apply();
         String[] names = new String[allSaverName.size()];
         allSaverName.toArray(names);
         return names;

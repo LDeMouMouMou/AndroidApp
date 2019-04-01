@@ -369,7 +369,7 @@ public class ConfigurationActivity extends AppCompatActivity {
                 selectedConfiguration = names[position];
                 configurationItems.set(0, chosenOne);
                 configurationItems.set(position, firstOne);
-                // configurationAdapter.notifyDataSetChanged();
+                configurationAdapter.notifyDataSetChanged();
                 configurationListView.setAdapter(configurationAdapter);
             }
         });

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.measureit.MyClass.BluetoothServer;
 import com.example.measureit.MyClass.ConfigurationSaver;
 import com.example.measureit.MyClass.DataCalculation;
+import com.example.measureit.MyClass.DataSaver;
 import com.example.measureit.R;
 
 import java.lang.ref.WeakReference;
@@ -54,8 +55,10 @@ public class ScannerActivity extends AppCompatActivity {
     public Button nextButton;
     // Defination of Flags
     public boolean isRandom;
+    public String selectedConfigurationName;
     //
     public ConfigurationSaver configurationSaver = new ConfigurationSaver();
+    public DataSaver dataSaver = new DataSaver();
     public DataCalculation dataCalculation = new DataCalculation();
     public BluetoothServer bluetoothServer;
     public BluetoothServer.BLEBinder bleBinder;
@@ -80,8 +83,9 @@ public class ScannerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
         this.getWindow().setFlags(FLAG_HOMEKEY_DISPATCHED, FLAG_HOMEKEY_DISPATCHED);
-        String selectedConfigurationName = getIntent().getStringExtra("selectedConfigurationName");
+        selectedConfigurationName = getIntent().getStringExtra("selectedConfigurationName");
         configurationSaver.configurationSaverInit(getApplicationContext(), true, selectedConfigurationName);
+        dataSaver.saverInit(getApplicationContext(), "input");
         // Find View Group
         lineChartView = findViewById(R.id.ScannerChart);
         progressBar = findViewById(R.id.scannerProgress);
@@ -100,6 +104,7 @@ public class ScannerActivity extends AppCompatActivity {
         final dataReceiver dataReceiver = new dataReceiver(ScannerActivity.this);
         bindService(new Intent(this, BluetoothServer.class), serviceConnection, Context.BIND_AUTO_CREATE);
         isRandom = configurationSaver.getBooleanParams("randomData");
+        // Text firstly shows when opened
         String resultTextString = "Click Button Below to Start Measuring\n";
         resultTextString += "Mode: ";
         resultTextString += isRandom?"Randomly Simulation\n":"Real-Time Receiving\n";
@@ -164,7 +169,6 @@ public class ScannerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Only when the task is Cancelled can the Back Button validate
-                // In fact, Back Button will not be viewed in other situation, just in case
                 if (dataReceiver.isCancelled()) {
                     Intent backIntent = new Intent(ScannerActivity.this, ConfigurationActivity.class);
                     startActivity(backIntent);
@@ -175,9 +179,9 @@ public class ScannerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Only when the task is finished can the Next Button validate
-                // In fact, Next Button will not be viewed in other situation, just in case
                 if (dataReceiver.getStatus() == AsyncTask.Status.FINISHED) {
                     Intent nextIntent = new Intent(ScannerActivity.this, ResultActivity.class);
+                    nextIntent.putExtra("dataSaverName", dataSaver.getDataSaverName());
                     startActivity(nextIntent);
                 }
             }
@@ -261,6 +265,7 @@ public class ScannerActivity extends AppCompatActivity {
                     float maxRadius = configurationSaver.getFloatParams("maxRadius");
                     float minRadius = configurationSaver.getFloatParams("minRadius");
                     dataCalculation.addStdRadius(stdRadius);
+                    dataSaver.addNewDataSet(selectedConfigurationName, isRandom);
                     // Angle Interval for Measuring Depends on the Total Points
                     float angleInterval = (float) 180 / (totalCount - 1);
                     dataCalculation.clearOriginalData();
@@ -313,7 +318,11 @@ public class ScannerActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Float... params){
+            // params[1, 2, 3] -> current sval(range), xval, yval
+            // params[4] -> current angle
+            // params[5] -> current count
             dataCalculation.addData(params[1], params[2], params[3]);
+            dataSaver.updateData(params[5].intValue(), params[4], params[1]);
             String progressTextString = "Receiving Data..."+Math.round(params[0]*100)/100.0+"%   ";
             progressTextString += params[5].intValue()+" out of "+params[6].intValue();
             ProgressText.setText(progressTextString);
@@ -342,6 +351,10 @@ public class ScannerActivity extends AppCompatActivity {
             cancelButton.setVisibility(View.INVISIBLE);
             backButton.setVisibility(View.INVISIBLE);
             nextButton.setVisibility(View.VISIBLE);
+            ProgressText.setText("Saving Data, Please Wait...");
+            if (dataSaver.writeData()) {
+                ProgressText.setText("Finished! Check Result Now");
+            }
         }
         @Override
         protected void onCancelled(){

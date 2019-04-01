@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/Configuration"
+        android:text="@string/Record"
         android:textColor="@color/colorWhite"
         android:textSize="21sp"
         android:typeface="serif"
