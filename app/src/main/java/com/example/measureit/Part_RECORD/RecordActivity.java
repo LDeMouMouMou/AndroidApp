@@ -2,10 +2,8 @@ package com.example.measureit.Part_RECORD;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,12 +12,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.measureit.MainActivity;
 import com.example.measureit.MyClass.DataSaver;
+import com.example.measureit.Part_NEW.ResultActivity;
 import com.example.measureit.R;
 
 import java.util.ArrayList;
@@ -66,20 +64,13 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.recordMenu) {
-                    showBottomDialog();
+                    showBottomDialog(allSaverName.get(position), position);
                 }
             }
         });
     }
 
-    private void showBottomDialog() {
-        if (bottomDialog == null) {
-            initBottomDialog();
-        }
-        bottomDialog.show();
-    }
-
-    private void initBottomDialog() {
+    private void showBottomDialog(final String saverName, final int position) {
         bottomDialog = new Dialog(this, R.style.bottomDialog);
         bottomDialog.setCanceledOnTouchOutside(true);
         bottomDialog.setCancelable(true);
@@ -89,7 +80,10 @@ public class RecordActivity extends AppCompatActivity {
         view.findViewById(R.id.Pop_View).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(RecordActivity.this, "View", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RecordActivity.this, ResultActivity.class);
+                intent.putExtra("dataSaverName", saverName);
+                intent.putExtra("isBackable", true);
+                startActivity(intent);
             }
         });
         view.findViewById(R.id.Pop_Info).setOnClickListener(new View.OnClickListener() {
@@ -107,7 +101,10 @@ public class RecordActivity extends AppCompatActivity {
         view.findViewById(R.id.Pop_Delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(RecordActivity.this, "Delete", Toast.LENGTH_SHORT).show();
+                dataSaver.delSaver(saverName);
+                Toast.makeText(RecordActivity.this, "Delete Successfully", Toast.LENGTH_SHORT).show();
+                bottomDialog.dismiss();
+                showRecyclerView();
             }
         });
         view.findViewById(R.id.Pop_Cancel).setOnClickListener(new View.OnClickListener() {
@@ -120,5 +117,6 @@ public class RecordActivity extends AppCompatActivity {
         });
         window.setContentView(view);
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        bottomDialog.show();
     }
 }

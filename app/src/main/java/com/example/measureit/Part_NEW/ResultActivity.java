@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.measureit.MainActivity;
+import com.example.measureit.Part_RECORD.RecordActivity;
 import com.example.measureit.R;
 import com.example.measureit.Part_NEW.ResultFragments.BiasFragment;
 import com.example.measureit.Part_NEW.ResultFragments.DataFragment;
@@ -23,6 +25,7 @@ public class ResultActivity extends AppCompatActivity {
     public BottomNavigationBar bottomNavigationBar;
     public TextView titleText;
     public Button homeButton;
+    public Button backButton;
     // Defination of Fragments
     public OverviewFragment overviewFragment;
     public DataFragment dataFragment;
@@ -30,13 +33,18 @@ public class ResultActivity extends AppCompatActivity {
     public PublishFragment publishFragment;
     public Fragment[] fragments;
     public int lastFragment;
+    //
+    private String dataSaverName;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+        dataSaverName = getIntent().getStringExtra("dataSaverName");
         titleText = findViewById(R.id.headTitle);
         homeButton = findViewById(R.id.backHomepage);
+        backButton = findViewById(R.id.backLastPage);
+        backButton.setVisibility(View.INVISIBLE);
         overviewFragment = new OverviewFragment();
         dataFragment = new DataFragment();
         biasFragment = new BiasFragment();
@@ -112,6 +120,16 @@ public class ResultActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        if (getIntent().getBooleanExtra("isBackable", false)) {
+            backButton.setVisibility(View.VISIBLE);
+            homeButton.setVisibility(View.INVISIBLE);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(ResultActivity.this, RecordActivity.class));
+                }
+            });
+        }
     }
 
     private void setDefaltFragment(){
@@ -123,6 +141,9 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void switchFragment(int lastFragment, int index){
+        Bundle bundle = new Bundle();
+        bundle.putString("dataSaverName", dataSaverName);
+        fragments[index].setArguments(bundle);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.hide(fragments[lastFragment]);
         if (!fragments[index].isAdded()){
@@ -130,4 +151,18 @@ public class ResultActivity extends AppCompatActivity {
         }
         fragmentTransaction.show(fragments[index]).commitAllowingStateLoss();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+            case KeyEvent.KEYCODE_HOME:
+            case KeyEvent.KEYCODE_MENU:
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+            case KeyEvent.KEYCODE_MUTE: return true;
+            default: return false;
+        }
+    }
+
 }

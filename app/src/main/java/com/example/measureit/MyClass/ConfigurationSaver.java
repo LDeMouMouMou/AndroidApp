@@ -38,7 +38,7 @@ public class ConfigurationSaver {
         return names;
     }
 
-    public String[] getConfigurationTimeList(){
+    public String[] getConfigurationTimeList() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("configurationList2", Context.MODE_PRIVATE);
         // SharedPreferences.Editor editor = sharedPreferences.edit();
         Map<String, ?> sharedPreferencesAll = sharedPreferences.getAll();
@@ -53,9 +53,6 @@ public class ConfigurationSaver {
         // editor.apply();
         return times;
     }
-
-    // Based on created time is not a good idea, using modified time and negetive sequence is better
-
 
     // Create a new configuration for button "add a new"
     public void addNewSaver(String newSaverName){

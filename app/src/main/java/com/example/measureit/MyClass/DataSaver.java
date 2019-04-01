@@ -40,7 +40,7 @@ public class DataSaver {
         dataSaverName = configurationName+"@"+saveTime;
         // Key for Storing: "DataSaverInfo"+(Current Total File Size) (Not Important for that)
         // Value for Storing: (Configuration Name Used)"@"(Create Time) (Just for Unique)
-        editor1.putString("DataSaverInfo"+(sharedPreferences1.getAll().size()), dataSaverName);
+        editor1.putString("DataSaverInfo"+(sharedPreferences1.getAll().size()+1), dataSaverName);
         // Create a file named (dataSaverName) for storing all parameters and measuring data
         SharedPreferences sharedPreferences2 = context.getSharedPreferences(dataSaverName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor2 = sharedPreferences2.edit();
@@ -99,6 +99,24 @@ public class DataSaver {
         return true;
     }
 
+    public List<Float> readAngleData(String dataSaverName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(dataSaverName, Context.MODE_PRIVATE);
+        List<Float> angleList = new ArrayList<>();
+        for (int i = 1; i <= sharedPreferences.getInt("angleProgress", 0); i++) {
+            angleList.add(sharedPreferences.getFloat("angle"+i, -1));
+        }
+        return angleList;
+    }
+
+    public List<Float> readRangeData(String dataSaverName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(dataSaverName, Context.MODE_PRIVATE);
+        List<Float> rangeList = new ArrayList<>();
+        for (int i = 1; i <= sharedPreferences.getInt("angleProgress", 0); i++) {
+            rangeList.add(sharedPreferences.getFloat("range"+i, -1));
+        }
+        return rangeList;
+    }
+
     public String getDataSaverName() {
         return dataSaverName;
     }
@@ -107,10 +125,8 @@ public class DataSaver {
         SharedPreferences sharedPreferences = context.getSharedPreferences("allDataSaverInfo", Context.MODE_PRIVATE);
         Map<String, ?> sharedPreferencesAll = sharedPreferences.getAll();
         List<String> allSaverInfo = new ArrayList<>();
-        for (int i = 0; i < sharedPreferencesAll.size(); i++) {
-            if (!isNullEmptyBlank(sharedPreferences.getString("DataSaverInfo"+i, ""))) {
-                allSaverInfo.add(sharedPreferences.getString("DataSaverInfo"+i, ""));
-            }
+        for (String key : sharedPreferencesAll.keySet()) {
+            allSaverInfo.add(sharedPreferences.getString(key, ""));
         }
         return allSaverInfo;
     }
@@ -120,12 +136,21 @@ public class DataSaver {
         return sharedPreferences.getBoolean(type, false);
     }
 
-
-    private boolean isNullEmptyBlank(String str){
-        if (str == null || "".equals(str) || "".equals(str.trim())){
-            return true;
+    public void delSaver(String saverName) {
+        SharedPreferences sharedPreferences1 = context.getSharedPreferences("allDataSaverInfo", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences2 = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+        SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+        Map<String, ?> sharedPreferences1All = sharedPreferences1.getAll();
+        for (String key : sharedPreferences1All.keySet()) {
+            if (sharedPreferences1.getString(key, "").equals(saverName)) {
+                editor1.remove(key);
+                break;
+            }
         }
-        return false;
+        editor2.clear();
+        editor1.apply();
+        editor2.apply();
     }
 
 }

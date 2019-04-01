@@ -5,5 +5,15 @@
     android:orientation="vertical"
     android:background="@color/colorMainBackground" >
 
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/dataChart"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_bluetoothlist"/>
+
+    <include layout="@layout/result_data_convert" />
 
 </LinearLayout>
