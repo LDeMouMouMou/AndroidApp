@@ -1,9 +1,5 @@
 package com.example.measureit.Part_RECORD;
 
-import android.content.Context;
-import android.graphics.Typeface;
-import android.support.v4.content.res.ResourcesCompat;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.measureit.R;

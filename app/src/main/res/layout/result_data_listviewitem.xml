@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/colorWhite"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/listViewItemLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" >
+
+        <TextView
+            android:id="@+id/menuItemName"
+            android:layout_width="290dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="25dp"
+            android:text="@string/RandomData"
+            android:textColor="@color/colorBlack"
+            android:textSize="15sp"
+            android:typeface="sans" />
+
+        <ImageView
+            android:id="@+id/rightArrowImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/result_data_menu"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

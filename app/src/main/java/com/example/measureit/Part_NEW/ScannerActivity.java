@@ -22,6 +22,7 @@ import com.example.measureit.MyClass.BluetoothServer;
 import com.example.measureit.MyClass.ConfigurationSaver;
 import com.example.measureit.MyClass.DataCalculation;
 import com.example.measureit.MyClass.DataSaver;
+import com.example.measureit.Part_NEW.DataSession.DataActivity;
 import com.example.measureit.R;
 
 import java.lang.ref.WeakReference;
@@ -180,7 +181,7 @@ public class ScannerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Only when the task is finished can the Next Button validate
                 if (dataReceiver.getStatus() == AsyncTask.Status.FINISHED) {
-                    Intent nextIntent = new Intent(ScannerActivity.this, ResultActivity.class);
+                    Intent nextIntent = new Intent(ScannerActivity.this, DataActivity.class);
                     nextIntent.putExtra("dataSaverName", dataSaver.getDataSaverName());
                     startActivity(nextIntent);
                 }
@@ -358,6 +359,7 @@ public class ScannerActivity extends AppCompatActivity {
         }
         @Override
         protected void onCancelled(){
+            dataSaver.delSaver(dataSaver.getDataSaverName());
             ProgressText.setText("Measuring Cancelled");
             progressBar.setProgress(0);
         }

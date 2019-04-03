@@ -2,18 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorMainBackground" >
+    android:background="@color/colorMainBackground"
+    android:orientation="vertical" >
+
+    <include layout="@layout/result_title"
+        android:id="@+id/title" />
 
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/dataChart"
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_height="330dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center"
-        android:background="@drawable/bg_bluetoothlist"/>
+        android:background="@color/colorWhite" />
 
     <include layout="@layout/result_data_convert" />
+
+    <ListView
+        android:id="@+id/dataConfigMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+
+    </ListView>
+
 
 </LinearLayout>

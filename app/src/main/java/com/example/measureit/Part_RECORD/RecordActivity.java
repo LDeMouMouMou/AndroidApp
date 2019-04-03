@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.measureit.MainActivity;
 import com.example.measureit.MyClass.DataSaver;
-import com.example.measureit.Part_NEW.ResultActivity;
+import com.example.measureit.Part_NEW.DataSession.DataActivity;
 import com.example.measureit.R;
 
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class RecordActivity extends AppCompatActivity {
         view.findViewById(R.id.Pop_View).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RecordActivity.this, ResultActivity.class);
+                Intent intent = new Intent(RecordActivity.this, DataActivity.class);
                 intent.putExtra("dataSaverName", saverName);
                 intent.putExtra("isBackable", true);
                 startActivity(intent);

@@ -43,5 +43,26 @@
     <string name="Pop_Del">DELETE</string>
     <string name="Pop_Export">EXPORT</string>
     <string name="Pop_Cancel">Cancel</string>
+    <string name="Pop_Confirm">Confirm</string>
+    <string name="FilterPop_Non">NO FILTER</string>
+    <string name="FilterPop_Median">MEDIAN FILTER</string>
+    <string name="PrefixPop_Move">Set Move Step Size…</string>
+    <string name="PrefixPop_Rotate">Set Rotate Angle Size…</string>
+    <string name="PrefixPop_RotateCenter">Set Rotate Center Coordinate…</string>
+    <string name="PrefixPop_Scale">Set Scale Step Size…</string>
+    <string name="PrefixProgress_Title">Slide to Change the Parameter</string>
+    <string name="EnterRotateCenter">Enter Rotate Center Coordinate</string>
+    <string name="EnterRotateCenterHint">*Leave empty blanks will remain their original value</string>
+    <string name="DataOnly">Only Original Data</string>
+    <string name="FilterOnly">Only Filtered Data</string>
+    <string name="FilterMixed">Filtered and Original Data</string>
+    <string name="xtop">Axis X Position: Top</string>
+    <string name="xbottom">Axis X Position: Bottom</string>
+    <string name="yleft">Axis Y Position: Left</string>
+    <string name="yright">Axis Y Position: Right</string>
+    <string name="verticalgrid_on">Vertical Grid Line: ON</string>
+    <string name="verticalgrid_off">Vertical Grid Line: OFF</string>
+    <string name="horizontalgrid_on">Horizontal Grid Line: ON</string>
+    <string name="horizontalgrid_off">Horizontal Grid Line: OFF</string>
 
 </resources>

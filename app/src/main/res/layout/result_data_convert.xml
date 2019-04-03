@@ -6,50 +6,65 @@
     android:orientation="horizontal" >
 
     <Button
+        android:id="@+id/data_moveleft"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
         android:background="@drawable/data_moveleft"/>
 
     <Button
+        android:id="@+id/data_moveright"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
         android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/data_moveright"/>
 
     <Button
+        android:id="@+id/data_moveup"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
         android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/data_moveup"/>
 
     <Button
+        android:id="@+id/data_movedown"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
         android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/data_movedown"/>
 
     <Button
+        android:id="@+id/data_rotateleft"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
         android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/data_rotateleft"/>
 
     <Button
+        android:id="@+id/data_rotateright"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
         android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/data_rotateright"/>
 
     <Button
+        android:id="@+id/data_scaleup"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
         android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/data_enlarge"/>
 
     <Button
+        android:id="@+id/data_scaledown"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
         android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/data_ensmall"/>
+
+    <Button
+        android:id="@+id/data_rollback"
+        android:layout_width="@dimen/dp_25dp"
+        android:layout_height="@dimen/dp_25dp"
+        android:layout_marginStart="@dimen/converticon_space"
+        android:background="@drawable/result_rollback"/>
 
 </LinearLayout>

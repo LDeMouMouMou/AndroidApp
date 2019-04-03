@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/result_data_dialog_axesposition_xtop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:text="@string/xtop"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
+        android:typeface="monospace"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="@drawable/grayline" />
+
+    <Button
+        android:id="@+id/result_data_dialog_axesposition_xbottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:text="@string/xbottom"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
+        android:typeface="monospace"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="@drawable/grayline" />
+
+    <Button
+        android:id="@+id/result_data_dialog_axesposition_yleft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:textSize="16sp"
+        android:typeface="monospace"
+        android:text="@string/yleft"
+        android:textColor="@color/colorBlack"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="@drawable/grayline" />
+
+    <Button
+        android:id="@+id/result_data_dialog_axesposition_yright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:textSize="16sp"
+        android:typeface="monospace"
+        android:text="@string/yright"
+        android:textColor="@color/colorBlack"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="@drawable/grayline" />
+
+    <Button
+        android:id="@+id/result_data_dialog_axesposition_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:textSize="16sp"
+        android:typeface="monospace"
+        android:text="@string/Pop_Cancel"
+        android:textColor="@color/colorBlack"/>
+
+
+</LinearLayout>
