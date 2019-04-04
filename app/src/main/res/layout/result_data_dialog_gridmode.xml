@@ -5,15 +5,30 @@
     android:background="@color/colorWhite"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/result_data_dialog_gridmode_vertical"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:text="@string/verticalgrid_on"
-        android:textSize="16sp"
-        android:textColor="@color/colorBlack"
-        android:typeface="monospace"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:layout_gravity="center"
+            android:text="@string/verticalgrid"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:typeface="monospace"/>
+
+        <Switch
+            android:id="@+id/result_data_dialog_gridmode_verticalswitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -21,15 +36,30 @@
         android:layout_gravity="center"
         android:background="@drawable/grayline" />
 
-    <Button
-        android:id="@+id/result_data_dialog_gridmode_horizontal"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:text="@string/horizontalgrid_on"
-        android:textSize="16sp"
-        android:textColor="@color/colorBlack"
-        android:typeface="monospace"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:layout_gravity="center"
+            android:text="@string/horizontalgrid"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:typeface="monospace"/>
+
+        <Switch
+            android:id="@+id/result_data_dialog_gridmode_horizontalswitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"

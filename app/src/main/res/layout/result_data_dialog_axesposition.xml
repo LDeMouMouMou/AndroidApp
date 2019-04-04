@@ -5,15 +5,47 @@
     android:background="@color/colorWhite"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/result_data_dialog_axesposition_xtop"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:text="@string/xtop"
-        android:textSize="16sp"
-        android:textColor="@color/colorBlack"
-        android:typeface="monospace"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:text="@string/xposition"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:typeface="monospace"/>
+
+        <Button
+            android:id="@+id/result_data_dialog_xposition_top"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="@dimen/dp_25dp"
+            android:background="@drawable/button_left_unselected"
+            android:textAlignment="center"
+            android:typeface="monospace"
+            android:textSize="15sp"
+            android:textColor="@color/colorBrightBlue"
+            android:text="Top"/>
+
+        <Button
+            android:id="@+id/result_data_dialog_xposition_bottom"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:background="@drawable/button_right_unselected"
+            android:textAlignment="center"
+            android:typeface="monospace"
+            android:textSize="15sp"
+            android:textColor="@color/colorBrightBlue"
+            android:text="Bottom"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -21,47 +53,47 @@
         android:layout_gravity="center"
         android:background="@drawable/grayline" />
 
-    <Button
-        android:id="@+id/result_data_dialog_axesposition_xbottom"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:text="@string/xbottom"
-        android:textSize="16sp"
-        android:textColor="@color/colorBlack"
-        android:typeface="monospace"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:layout_gravity="center"
-        android:background="@drawable/grayline" />
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/result_data_dialog_axesposition_yleft"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:textSize="16sp"
-        android:typeface="monospace"
-        android:text="@string/yleft"
-        android:textColor="@color/colorBlack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:text="@string/yposition"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:typeface="monospace"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="center"
-        android:background="@drawable/grayline" />
+        <Button
+            android:id="@+id/result_data_dialog_yposition_left"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="@dimen/dp_25dp"
+            android:background="@drawable/button_left_unselected"
+            android:textAlignment="center"
+            android:textColor="@color/colorBrightBlue"
+            android:typeface="monospace"
+            android:textSize="15sp"
+            android:text="Left"/>
 
-    <Button
-        android:id="@+id/result_data_dialog_axesposition_yright"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:textSize="16sp"
-        android:typeface="monospace"
-        android:text="@string/yright"
-        android:textColor="@color/colorBlack"/>
+        <Button
+            android:id="@+id/result_data_dialog_yposition_right"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:background="@drawable/button_right_unselected"
+            android:textAlignment="center"
+            android:typeface="monospace"
+            android:textSize="15sp"
+            android:textColor="@color/colorBrightBlue"
+            android:text="Right"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
