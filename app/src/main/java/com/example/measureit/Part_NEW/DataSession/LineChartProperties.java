@@ -10,6 +10,9 @@ public class LineChartProperties {
     private boolean lineYHasLines = true;
     private boolean lineXPositionBottom = true;
     private boolean lineYPositionLeft = true;
+    private String linePointColorR = "FF";
+    private String linePointColorG = "CD";
+    private String linePointColorB = "41";
 
     public void setLinePointRadius(int pointRadius) {
         linePointRadius = pointRadius;

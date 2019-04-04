@@ -3,5 +3,6 @@
     <dimen name="converticon_space">13dp</dimen>
     <dimen name="dp_25dp">25dp</dimen>
     <dimen name="dp_10dp">10dp</dimen>
+    <dimen name="colorball_radius">18dp</dimen>
 
 </resources>

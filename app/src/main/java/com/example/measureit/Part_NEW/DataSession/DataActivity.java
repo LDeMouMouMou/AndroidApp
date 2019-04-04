@@ -548,7 +548,7 @@ public class DataActivity extends AppCompatActivity {
     private void showSeekBarChangeDialog(@NonNull final String mode, final float seekBar2TextFactor) {
         final Dialog paramChangeDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
         paramChangeDialog.setCancelable(true);
-        paramChangeDialog.setCanceledOnTouchOutside(false);
+        paramChangeDialog.setCanceledOnTouchOutside(true);
         Window window = paramChangeDialog .getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
@@ -623,7 +623,7 @@ public class DataActivity extends AppCompatActivity {
     private void showRotateCenterChangeDialog() {
         final AlertDialog centerDialog = new AlertDialog.Builder(DataActivity.this).create();
         centerDialog.setView(LayoutInflater.from(DataActivity.this).inflate(R.layout.result_data_dialog_rotatecenter, null));
-        centerDialog.setCanceledOnTouchOutside(false);
+        centerDialog.setCanceledOnTouchOutside(true);
         centerDialog.show();
         centerDialog.getWindow().setContentView(R.layout.result_data_dialog_rotatecenter);
         final EditText editText_x = centerDialog.findViewById(R.id.center_coordinator_x);
@@ -950,10 +950,25 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void showColorCustomDialog() {
-
+        final Dialog colorCustomDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        colorCustomDialog.setCancelable(true);
+        colorCustomDialog.setCanceledOnTouchOutside(true);
+        Window window = colorCustomDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        window.setWindowAnimations(R.style.dialog_animation);
+        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_dotcolor, null);
+        window.setContentView(view);
+        view.findViewById(R.id.result_data_dialog_dotcolor_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                colorCustomDialog.dismiss();
+            }
+        });
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        colorCustomDialog.show();
     }
 
-    private boolean isNullEmptyBlank(String str){
+    private boolean isNullEmptyBlank(@NonNull String str){
         return str == null || "".equals(str) || "".equals(str.trim());
     }
 }

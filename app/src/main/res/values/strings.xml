@@ -64,6 +64,9 @@
     <string name="dotSize">Chart Dot Size</string>
     <string name="dotLines">Chart Lines Between Dots</string>
     <string name="chartFilled">Chart Filled Below Lines</string>
+    <string name="originalDotsColor">Original Dots Color</string>
+    <string name="filteredDotsColor">Filtered Dots Color</string>
+    <string name="standardDotsColor">Standard Dots Color</string>
 
 
 </resources>
