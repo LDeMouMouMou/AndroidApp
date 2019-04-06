@@ -46,7 +46,7 @@ import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.view.LineChartView;
 
-public class DataActivity extends AppCompatActivity {
+public class DataActivity_HighPerformance extends AppCompatActivity {
 
     private LineChartView lineChartView;
     private List<PointValue> originalDataPointValues = new ArrayList<>();
@@ -82,7 +82,7 @@ public class DataActivity extends AppCompatActivity {
             backLastButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(DataActivity.this, RecordActivity.class));
+                    startActivity(new Intent(DataActivity_HighPerformance.this, RecordActivity.class));
                 }
             });
         }
@@ -92,7 +92,7 @@ public class DataActivity extends AppCompatActivity {
             backHomeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(DataActivity.this, MainActivity.class));
+                    startActivity(new Intent(DataActivity_HighPerformance.this, MainActivity.class));
                 }
             });
         }
@@ -122,7 +122,7 @@ public class DataActivity extends AppCompatActivity {
         getFittingDataList(true);
         initConfigMenuItems();
         initLineChart();
-        DataConfigAdapter dataConfigAdapter = new DataConfigAdapter(DataActivity.this, R.layout.result_data_listviewitem, dataConfigItems);
+        DataConfigAdapter dataConfigAdapter = new DataConfigAdapter(DataActivity_HighPerformance.this, R.layout.result_data_listviewitem, dataConfigItems);
         listView.setAdapter(dataConfigAdapter);
         moveChartUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,7 +185,6 @@ public class DataActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Original Chart!", Toast.LENGTH_SHORT).show();
                 getOriginalDataList();
-                initLineChart();
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -218,9 +217,6 @@ public class DataActivity extends AppCompatActivity {
                         break;
                     case "Chart Dots Display Preferences":
                         showDotPreferenceChangeDialog();
-                        break;
-                    case "Chart Line Display Preferences":
-                        showLinePreferenceChangeDialog();
                         break;
                     case "Chart Dots/Line Custom Color":
                         showColorCustomDialog();
@@ -319,35 +315,24 @@ public class DataActivity extends AppCompatActivity {
             if (hasLines[i]) {
                 Line line = new Line(allPointValues.get(i)).setColor(Color.parseColor("#"+
                         lineChartProperties.getLineAllPointColorARGB()[i]));
-                if (i == 0 || i == 1) {
-                    switch (lineChartProperties.getLineChartPointShape(i)) {
-                        case "circle":
-                            line.setShape(ValueShape.CIRCLE);
-                            break;
-                        case "diamond":
-                            line.setShape(ValueShape.DIAMOND);
-                            break;
-                        case "square":
-                            line.setShape(ValueShape.SQUARE);
-                            break;
-                    }
-                    line.setCubic(true)
-                            .setPointRadius(lineChartProperties.getLineChartDotSize(i))
-                            .setFilled(lineChartProperties.getLineChartDotHasFilled(i))
-                            .setHasLines(lineChartProperties.getLineChartDotHasLines(i))
-                            .setHasPoints(true)
-                            .setHasLabels(false)
-                            .setHasLabelsOnlyForSelected(true);
+                switch (lineChartProperties.getLineDotsPointShape()[i]) {
+                    case "circle":
+                        line.setShape(ValueShape.CIRCLE);
+                        break;
+                    case "diamond":
+                        line.setShape(ValueShape.DIAMOND);
+                        break;
+                    case "square":
+                        line.setShape(ValueShape.SQUARE);
+                        break;
                 }
-                else {
-                    line.setShape(ValueShape.CIRCLE);
-                    line.setCubic(true)
-                            .setPointRadius(lineChartProperties.getLineChartLineSize(i - 2))
-                            .setFilled(lineChartProperties.getLineChartLineHasFilled(i - 2))
-                            .setHasPoints(true)
-                            .setHasLabels(false)
-                            .setHasLabelsOnlyForSelected(true);
-                }
+                line.setCubic(true)
+                        .setPointRadius(lineChartProperties.getLinePointRadius())
+                        .setFilled(lineChartProperties.getLineFilled())
+                        .setHasLines(lineChartProperties.getLinePointHasLine())
+                        .setHasPoints(true)
+                        .setHasLabels(false)
+                        .setHasLabelsOnlyForSelected(true);
                 lines.add(line);
             }
         }
@@ -402,7 +387,6 @@ public class DataActivity extends AppCompatActivity {
         dataConfigItems.add(new DataConfigItem(true, "Chart Display Preferences"));
         dataConfigItems.add(new DataConfigItem(false, "Chart Axes Position"));
         dataConfigItems.add(new DataConfigItem(false, "Chart Dots Display Preferences"));
-        dataConfigItems.add(new DataConfigItem(false, "Chart Line Display Preferences"));
         dataConfigItems.add(new DataConfigItem(false, "Chart Dots/Line Custom Color"));
         dataConfigItems.add(new DataConfigItem(false, "Chart Grid Mode"));
         dataConfigItems.add(new DataConfigItem(true, "Publish and Share"));
@@ -485,13 +469,13 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void showFilterOptionDialog() {
-        final Dialog filterOptionDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        final Dialog filterOptionDialog = new Dialog(DataActivity_HighPerformance.this, R.style.bottomDialog);
         filterOptionDialog.setCancelable(true);
         filterOptionDialog.setCanceledOnTouchOutside(true);
         Window window = filterOptionDialog.getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
-        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_filtertype, null);
+        View view = View.inflate(DataActivity_HighPerformance.this, R.layout.result_data_dialog_filtertype, null);
         view.findViewById(R.id.result_data_dialog_filter_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -515,13 +499,13 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void showChartLineDisplaySelectionDialog() {
-        final Dialog chartLineDisplaySelectionDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        final Dialog chartLineDisplaySelectionDialog = new Dialog(DataActivity_HighPerformance.this, R.style.bottomDialog);
         chartLineDisplaySelectionDialog.setCanceledOnTouchOutside(true);
         chartLineDisplaySelectionDialog.setCancelable(true);
         Window window = chartLineDisplaySelectionDialog.getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
-        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_chartlinedisplayselection, null);
+        View view = View.inflate(DataActivity_HighPerformance.this, R.layout.result_data_dialog_chartlinedisplayselection, null);
         CheckBox originalCheckBox = view.findViewById(R.id.result_data_dialog_selection_originalCheck);
         CheckBox filteredCheckBox = view.findViewById(R.id.result_data_dialog_selection_filteredCheck);
         CheckBox standardCheckBox = view.findViewById(R.id.result_data_dialog_selection_standardCheck);
@@ -570,13 +554,13 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void showSeekBarChangeDialog(@NonNull final String mode, final float seekBar2TextFactor) {
-        final Dialog paramChangeDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        final Dialog paramChangeDialog = new Dialog(DataActivity_HighPerformance.this, R.style.bottomDialog);
         paramChangeDialog.setCancelable(true);
         paramChangeDialog.setCanceledOnTouchOutside(true);
         Window window = paramChangeDialog .getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
-        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_progress, null);
+        View view = View.inflate(DataActivity_HighPerformance.this, R.layout.result_data_dialog_progress, null);
         window.setContentView(view);
         final SeekBar seekBar = view.findViewById(R.id.result_data_dialog_seekbar);
         final TextView titleText = view.findViewById(R.id.result_data_dialog_title);
@@ -645,8 +629,8 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void showRotateCenterChangeDialog() {
-        final AlertDialog centerDialog = new AlertDialog.Builder(DataActivity.this).create();
-        centerDialog.setView(LayoutInflater.from(DataActivity.this).inflate(R.layout.result_data_dialog_rotatecenter, null));
+        final AlertDialog centerDialog = new AlertDialog.Builder(DataActivity_HighPerformance.this).create();
+        centerDialog.setView(LayoutInflater.from(DataActivity_HighPerformance.this).inflate(R.layout.result_data_dialog_rotatecenter, null));
         centerDialog.setCanceledOnTouchOutside(true);
         centerDialog.show();
         centerDialog.getWindow().setContentView(R.layout.result_data_dialog_rotatecenter);
@@ -672,20 +656,20 @@ public class DataActivity extends AppCompatActivity {
                     rotateCenterCoordinateY = Float.valueOf(editText_y.getText().toString());
                 }
                 centerDialog.dismiss();
-                Toast.makeText(DataActivity.this, "Set Center as ("+rotateCenterCoordinateX+","+rotateCenterCoordinateY+")",
+                Toast.makeText(DataActivity_HighPerformance.this, "Set Center as ("+rotateCenterCoordinateX+","+rotateCenterCoordinateY+")",
                         Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void showAxesPositionChangeDialog() {
-        final Dialog positionChangeDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        final Dialog positionChangeDialog = new Dialog(DataActivity_HighPerformance.this, R.style.bottomDialog);
         positionChangeDialog.setCanceledOnTouchOutside(true);
         positionChangeDialog.setCancelable(true);
         Window window = positionChangeDialog.getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
-        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_axesposition, null);
+        View view = View.inflate(DataActivity_HighPerformance.this, R.layout.result_data_dialog_axesposition, null);
         window.setContentView(view);
         Button xtop  = view.findViewById(R.id.result_data_dialog_xposition_top);
         Button xbottom = view.findViewById(R.id.result_data_dialog_xposition_bottom);
@@ -766,219 +750,166 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void showDotPreferenceChangeDialog() {
-        final Dialog dotPreferenceChangeDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        final Dialog dotPreferenceChangeDialog = new Dialog(DataActivity_HighPerformance.this, R.style.bottomDialog);
         dotPreferenceChangeDialog.setCanceledOnTouchOutside(true);
         dotPreferenceChangeDialog.setCancelable(true);
         Window window = dotPreferenceChangeDialog.getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
-        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_dotprefer, null);
+        View view = View.inflate(DataActivity_HighPerformance.this, R.layout.result_data_dialog_dotprefer, null);
         window.setContentView(view);
-        final NiceSpinner niceSpinner = view.findViewById(R.id.result_data_dialog_dotprefer_spinner);
-        final List<String> spinnerItem = new ArrayList<>();
-        spinnerItem.add(getResources().getString(R.string.OriginalDotsOnly));
-        spinnerItem.add(getResources().getString(R.string.FilteredDotsOnly));
-        spinnerItem.add("Tap to Select an Item");
-        niceSpinner.attachDataSource(spinnerItem);
-        final Button shapeCircle = view.findViewById(R.id.result_data_dialog_dotshape_circle);
-        final Button shapeSqure = view.findViewById(R.id.result_data_dialog_dotshape_square);
-        final Button shapeDiamond = view.findViewById(R.id.result_data_dialog_dotshape_diamond);
+        Button shapeCircle = view.findViewById(R.id.result_data_dialog_dotshape_circle);
+        Button shapeSqure = view.findViewById(R.id.result_data_dialog_dotshape_square);
+        Button shapeDiamond = view.findViewById(R.id.result_data_dialog_dotshape_diamond);
+        switch (lineChartProperties.getLineOriginalPointShape()) {
+            case "circle":
+                shapeCircle.setBackgroundResource(R.drawable.button_left_selected);
+                shapeCircle.setTextColor(getResources().getColor(R.color.colorWhite));
+                shapeSqure.setBackgroundResource(R.drawable.button_center_unselected);
+                shapeDiamond.setBackgroundResource(R.drawable.button_right_unselected);
+                break;
+            case "square":
+                shapeSqure.setBackgroundResource(R.drawable.button_center_selected);
+                shapeSqure.setTextColor(getResources().getColor(R.color.colorWhite));
+                shapeCircle.setBackgroundResource(R.drawable.button_left_unselected);
+                shapeDiamond.setBackgroundResource(R.drawable.button_right_unselected);
+                break;
+            case "diamond":
+                shapeDiamond.setBackgroundResource(R.drawable.button_right_selected);
+                shapeDiamond.setTextColor(getResources().getColor(R.color.colorWhite));
+                shapeCircle.setBackgroundResource(R.drawable.button_left_unselected);
+                shapeSqure.setBackgroundResource(R.drawable.button_center_unselected);
+                break;
+        }
+        shapeCircle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!lineChartProperties.getLineOriginalPointShape().equals("circle")) {
+                    lineChartProperties.setLineOriginalPointShape("circle");
+                    dotPreferenceChangeDialog.dismiss();
+                    initLineChart();
+                    showDotPreferenceChangeDialog();
+                }
+            }
+        });
+        shapeSqure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!lineChartProperties.getLineOriginalPointShape().equals("square")) {
+                    lineChartProperties.setLineOriginalPointShape("square");
+                    dotPreferenceChangeDialog.dismiss();
+                    initLineChart();
+                    showDotPreferenceChangeDialog();
+                }
+            }
+        });
+        shapeDiamond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!lineChartProperties.getLineOriginalPointShape().equals("diamond")) {
+                    lineChartProperties.setLineOriginalPointShape("diamond");
+                    dotPreferenceChangeDialog.dismiss();
+                    initLineChart();
+                    showDotPreferenceChangeDialog();
+                }
+            }
+        });
         final Button dotSize1 = view.findViewById(R.id.result_data_dialog_dotsize_1);
         final Button dotSize2 = view.findViewById(R.id.result_data_dialog_dotsize_2);
         final Button dotSize3 = view.findViewById(R.id.result_data_dialog_dotsize_3);
         final Button dotSize4 = view.findViewById(R.id.result_data_dialog_dotsize_4);
         final Button dotSize5 = view.findViewById(R.id.result_data_dialog_dotsize_5);
-        final Switch dotLines = view.findViewById(R.id.result_data_dialog_dotprefer_dotlines);
-        final Switch lineFilled = view.findViewById(R.id.result_data_dialog_dotprefer_linefilled);
-        final TextView textView = view.findViewById(R.id.result_data_dialog_dotprefer_linefilledtext);
-        final TextView textView1 = view.findViewById(R.id.result_data_dialog_dotprefer_dotlinestext);
-        // Disable switches when first opened
-        dotLines.setEnabled(false);
-        lineFilled.setEnabled(false);
-        textView.setTextColor(getResources().getColor(R.color.colorDarkGray));
-        textView1.setTextColor(getResources().getColor(R.color.colorDarkGray));
-        // The same problem again, nicespinner shows the first item but does not change view
-        niceSpinner.setSelectedIndex(2);
-        niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        Button[] dotSizeButtons = new Button[]{dotSize1, dotSize2, dotSize3, dotSize4, dotSize5};
+        dotSizeButtons[lineChartProperties.getLinePointRadius()-1].setBackgroundResource(
+                (lineChartProperties.getLinePointRadius()==1)?R.drawable.button_left_selected:
+                        ((lineChartProperties.getLinePointRadius()==5)?R.drawable.button_right_selected:R.drawable.button_center_selected)
+        );
+        dotSizeButtons[lineChartProperties.getLinePointRadius()-1].setTextColor(getResources().getColor(R.color.colorWhite));
+        dotSize1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                if (spinnerItem.size()==3) {
-                    spinnerItem.remove(2);
-                    niceSpinner.attachDataSource(spinnerItem);
+            public void onClick(View v) {
+                if (lineChartProperties.getLinePointRadius() != 1) {
+                    lineChartProperties.setLinePointRadius(1);
+                    initLineChart();
+                    dotPreferenceChangeDialog.dismiss();
+                    showDotPreferenceChangeDialog();
                 }
-                if (position != 2) {
-                    dotLines.setEnabled(true);
-                    lineFilled.setEnabled(true);
-                    textView1.setTextColor(getResources().getColor(R.color.colorBlack));
-                    switch (lineChartProperties.getLineChartPointShape(position)) {
-                        case "circle":
-                            shapeCircle.setBackgroundResource(R.drawable.button_left_selected);
-                            shapeCircle.setTextColor(getResources().getColor(R.color.colorWhite));
-                            shapeSqure.setBackgroundResource(R.drawable.button_center_unselected);
-                            shapeSqure.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                            shapeDiamond.setBackgroundResource(R.drawable.button_right_unselected);
-                            shapeDiamond.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                            break;
-                        case "square":
-                            shapeSqure.setBackgroundResource(R.drawable.button_center_selected);
-                            shapeSqure.setTextColor(getResources().getColor(R.color.colorWhite));
-                            shapeCircle.setBackgroundResource(R.drawable.button_left_unselected);
-                            shapeCircle.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                            shapeDiamond.setBackgroundResource(R.drawable.button_right_unselected);
-                            shapeDiamond.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                            break;
-                        case "diamond":
-                            shapeDiamond.setBackgroundResource(R.drawable.button_right_selected);
-                            shapeDiamond.setTextColor(getResources().getColor(R.color.colorWhite));
-                            shapeCircle.setBackgroundResource(R.drawable.button_left_unselected);
-                            shapeCircle.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                            shapeSqure.setBackgroundResource(R.drawable.button_center_unselected);
-                            shapeSqure.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                            break;
-                    }
-                    shapeCircle.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!lineChartProperties.getLineChartPointShape(position).equals("circle")) {
-                                shapeCircle.setBackgroundResource(R.drawable.button_left_selected);
-                                shapeCircle.setTextColor(getResources().getColor(R.color.colorWhite));
-                                shapeSqure.setBackgroundResource(R.drawable.button_center_unselected);
-                                shapeSqure.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                                shapeDiamond.setBackgroundResource(R.drawable.button_right_unselected);
-                                shapeDiamond.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                                lineChartProperties.setLineChartDotShape("circle", position);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    shapeSqure.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!lineChartProperties.getLineChartPointShape(position).equals("square")) {
-                                shapeCircle.setBackgroundResource(R.drawable.button_left_unselected);
-                                shapeCircle.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                                shapeSqure.setBackgroundResource(R.drawable.button_center_selected);
-                                shapeSqure.setTextColor(getResources().getColor(R.color.colorWhite));
-                                shapeDiamond.setBackgroundResource(R.drawable.button_right_unselected);
-                                shapeDiamond.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                                lineChartProperties.setLineChartDotShape("square", position);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    shapeDiamond.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!lineChartProperties.getLineChartPointShape(position).equals("diamond")) {
-                                shapeCircle.setBackgroundResource(R.drawable.button_left_unselected);
-                                shapeCircle.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                                shapeSqure.setBackgroundResource(R.drawable.button_center_unselected);
-                                shapeSqure.setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                                shapeDiamond.setBackgroundResource(R.drawable.button_right_selected);
-                                shapeDiamond.setTextColor(getResources().getColor(R.color.colorWhite));
-                                lineChartProperties.setLineChartDotShape("diamond", position);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    final Button[] dotSizeButtons = new Button[]{dotSize1, dotSize2, dotSize3, dotSize4, dotSize5};
-                    clearAllSizeButton(dotSizeButtons);
-                    dotSizeButtons[lineChartProperties.getLineChartDotSize(position) - 1].setBackgroundResource(
-                            (lineChartProperties.getLineChartDotSize(position) == 1) ? R.drawable.button_left_selected :
-                                    ((lineChartProperties.getLineChartDotSize(position) == 5) ? R.drawable.button_right_selected : R.drawable.button_center_selected)
-                    );
-                    dotSizeButtons[lineChartProperties.getLineChartDotSize(position) - 1].setTextColor(getResources().getColor(R.color.colorWhite));
-                    dotSize1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartDotSize(position) != 1) {
-                                lineChartProperties.setLineChartDotSize(1, position);
-                                setHighlightSizeButton(position, dotSizeButtons, true);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    dotSize2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartDotSize(position) != 2) {
-                                lineChartProperties.setLineChartDotSize(2, position);
-                                setHighlightSizeButton(position, dotSizeButtons, true);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    dotSize3.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartDotSize(position) != 3) {
-                                lineChartProperties.setLineChartDotSize(3, position);
-                                setHighlightSizeButton(position, dotSizeButtons, true);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    dotSize4.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartDotSize(position) != 4) {
-                                lineChartProperties.setLineChartDotSize(4, position);
-                                setHighlightSizeButton(position, dotSizeButtons, true);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    dotSize5.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartDotSize(position) != 5) {
-                                lineChartProperties.setLineChartDotSize(5, position);
-                                setHighlightSizeButton(position, dotSizeButtons, true);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    dotLines.setChecked(lineChartProperties.getLineChartDotHasLines(position));
-                    dotLines.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            lineChartProperties.setLineChartDotHasLines(isChecked, position);
-                            initLineChart();
-                            if (isChecked) {
-                                lineFilled.setEnabled(true);
-                                textView.setTextColor(getResources().getColor(R.color.colorBlack));
-                                lineFilled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        lineChartProperties.setLineChartDotHasFilled(isChecked, position);
-                                        initLineChart();
-                                    }
-                                });
-                            }
-                            else {
-                                lineFilled.setEnabled(false);
-                                textView.setTextColor(getResources().getColor(R.color.colorDarkGray));
-                            }
-                        }
-                    });
-                }
-                else {
-                    shapeCircle.setBackgroundResource(R.drawable.button_left_unselected);
-                    shapeSqure.setBackgroundResource(R.drawable.button_center_unselected);
-                    shapeDiamond.setBackgroundResource(R.drawable.button_right_unselected);
-                    dotSize1.setBackgroundResource(R.drawable.button_left_unselected);
-                    dotSize2.setBackgroundResource(R.drawable.button_center_unselected);
-                    dotSize3.setBackgroundResource(R.drawable.button_center_unselected);
-                    dotSize4.setBackgroundResource(R.drawable.button_center_unselected);
-                    dotSize5.setBackgroundResource(R.drawable.button_right_unselected);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
+        dotSize2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lineChartProperties.getLinePointRadius() != 2) {
+                    lineChartProperties.setLinePointRadius(2);
+                    initLineChart();
+                    dotPreferenceChangeDialog.dismiss();
+                    showDotPreferenceChangeDialog();
+                }
+            }
+        });
+        dotSize3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lineChartProperties.getLinePointRadius() != 3) {
+                    lineChartProperties.setLinePointRadius(3);
+                    initLineChart();
+                    dotPreferenceChangeDialog.dismiss();
+                    showDotPreferenceChangeDialog();
+                }
+            }
+        });
+        dotSize4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lineChartProperties.getLinePointRadius() != 4) {
+                    lineChartProperties.setLinePointRadius(4);
+                    initLineChart();
+                    dotPreferenceChangeDialog.dismiss();
+                    showDotPreferenceChangeDialog();
+                }
+            }
+        });
+        dotSize5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lineChartProperties.getLinePointRadius() != 5) {
+                    lineChartProperties.setLinePointRadius(5);
+                    initLineChart();
+                    dotPreferenceChangeDialog.dismiss();
+                    showDotPreferenceChangeDialog();
+                }
+            }
+        });
+        Switch dotLines = view.findViewById(R.id.result_data_dialog_dotprefer_dotlines);
+        dotLines.setChecked(lineChartProperties.getLinePointHasLine());
+        dotLines.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                lineChartProperties.setLinePointHasLine(isChecked);
+                dotPreferenceChangeDialog.dismiss();
+                initLineChart();
+                showDotPreferenceChangeDialog();
+            }
+        });
+        Switch lineFilled = view.findViewById(R.id.result_data_dialog_dotprefer_linefilled);
+        TextView textView = view.findViewById(R.id.result_data_dialog_dotprefer_linefilledtext);
+        if (dotLines.isChecked()) {
+            textView.setTextColor(getResources().getColor(R.color.colorBlack));
+            lineFilled.setChecked(lineChartProperties.getLineFilled());
+            lineFilled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    lineChartProperties.setLineFilled(isChecked);
+                    dotPreferenceChangeDialog.dismiss();
+                    initLineChart();
+                    showDotPreferenceChangeDialog();
+                }
+            });
+        }
+        else {
+            lineFilled.setEnabled(false);
+            textView.setTextColor(getResources().getColor(R.color.colorDarkGray));
+        }
         view.findViewById(R.id.result_data_dialog_dotprefer_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -989,182 +920,14 @@ public class DataActivity extends AppCompatActivity {
         dotPreferenceChangeDialog.show();
     }
 
-    private void showLinePreferenceChangeDialog() {
-        final Dialog linePreferenceChangeDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
-        linePreferenceChangeDialog.setCancelable(true);
-        linePreferenceChangeDialog.setCanceledOnTouchOutside(true);
-        Window window = linePreferenceChangeDialog.getWindow();
-        window.setGravity(Gravity.BOTTOM);
-        window.setWindowAnimations(R.style.dialog_animation);
-        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_lineprefer, null);
-        window.setContentView(view);
-        final NiceSpinner niceSpinner = view.findViewById(R.id.result_data_dialog_lineprefer_spinner);
-        final List<String> spinnerItems = new ArrayList<>();
-        spinnerItems.add(getResources().getString(R.string.StandardLineOnly));
-        spinnerItems.add(getResources().getString(R.string.FittingLineOnly));
-        spinnerItems.add("Tap to Select an Item");
-        niceSpinner.attachDataSource(spinnerItems);
-        niceSpinner.setSelectedIndex(2);
-        final Button lineSize1 = view.findViewById(R.id.result_data_dialog_linesize_1);
-        final Button lineSize2 = view.findViewById(R.id.result_data_dialog_linesize_2);
-        final Button lineSize3 = view.findViewById(R.id.result_data_dialog_linesize_3);
-        final Button lineSize4 = view.findViewById(R.id.result_data_dialog_linesize_4);
-        final Button lineSize5 = view.findViewById(R.id.result_data_dialog_linesize_5);
-        final Switch lineFilled = view.findViewById(R.id.result_data_dialog_lineprefer_linefilled);
-        niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                if (spinnerItems.size()==3) {
-                    spinnerItems.remove(2);
-                    niceSpinner.attachDataSource(spinnerItems);
-                }
-                if (position != 2) {
-                    final Button[] lineSizeButtons = new Button[]{lineSize1, lineSize2, lineSize3, lineSize4, lineSize5};
-                    clearAllSizeButton(lineSizeButtons);
-                    lineSizeButtons[lineChartProperties.getLineChartLineSize(position) - 1].setBackgroundResource(
-                            (lineChartProperties.getLineChartLineSize(position) == 1) ? R.drawable.button_left_selected :
-                                    ((lineChartProperties.getLineChartLineSize(position) == 5) ? R.drawable.button_right_selected : R.drawable.button_center_selected)
-                    );
-                    lineSizeButtons[lineChartProperties.getLineChartLineSize(position) - 1].setTextColor(getResources().getColor(R.color.colorWhite));
-                    lineSize1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartLineSize(position) != 1) {
-                                lineChartProperties.setLineChartLineSize(1, position);
-                                setHighlightSizeButton(position, lineSizeButtons, false);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    lineSize2.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartLineSize(position) != 2) {
-                                lineChartProperties.setLineChartLineSize(2, position);
-                                setHighlightSizeButton(position, lineSizeButtons, false);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    lineSize3.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartLineSize(position) != 3) {
-                                lineChartProperties.setLineChartLineSize(3, position);
-                                setHighlightSizeButton(position, lineSizeButtons, false);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    lineSize4.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartLineSize(position) != 4) {
-                                lineChartProperties.setLineChartLineSize(4, position);
-                                setHighlightSizeButton(position, lineSizeButtons, false);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    lineSize5.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (lineChartProperties.getLineChartLineSize(position) != 5) {
-                                lineChartProperties.setLineChartLineSize(5, position);
-                                setHighlightSizeButton(position, lineSizeButtons, false);
-                                initLineChart();
-                            }
-                        }
-                    });
-                    lineFilled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            lineChartProperties.setLineChartLineHasFilled(isChecked, position);
-                            initLineChart();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        view.findViewById(R.id.result_data_dialog_lineprefer_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                linePreferenceChangeDialog.dismiss();
-            }
-        });
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        linePreferenceChangeDialog.show();
-    }
-
-    private void setHighlightSizeButton(int position, Button[] dotSizeButtons, boolean isDot) {
-        int highlightPosition = isDot?(lineChartProperties.getLineChartDotSize(position)-1)
-                :(lineChartProperties.getLineChartLineSize(position)-1);
-        for (int i = 0; i <= 4; i++) {
-            if (i==highlightPosition) {
-                switch (i) {
-                    case 0:
-                        dotSizeButtons[i].setBackgroundResource(R.drawable.button_left_selected);
-                        dotSizeButtons[i].setTextColor(getResources().getColor(R.color.colorWhite));
-                        break;
-                    case 4:
-                        dotSizeButtons[i].setBackgroundResource(R.drawable.button_right_selected);
-                        dotSizeButtons[i].setTextColor(getResources().getColor(R.color.colorWhite));
-                        break;
-                    default:
-                        dotSizeButtons[i].setBackgroundResource(R.drawable.button_center_selected);
-                        dotSizeButtons[i].setTextColor(getResources().getColor(R.color.colorWhite));
-                        break;
-                }
-            }
-            else {
-                switch (i) {
-                    case 0:
-                        dotSizeButtons[i].setBackgroundResource(R.drawable.button_left_unselected);
-                        dotSizeButtons[i].setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                        break;
-                    case 4:
-                        dotSizeButtons[i].setBackgroundResource(R.drawable.button_right_unselected);
-                        dotSizeButtons[i].setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                        break;
-                    default:
-                        dotSizeButtons[i].setBackgroundResource(R.drawable.button_center_unselected);
-                        dotSizeButtons[i].setTextColor(getResources().getColor(R.color.colorBrightBlue));
-                        break;
-                }
-            }
-        }
-    }
-
-    private void clearAllSizeButton(@NonNull Button[] buttons) {
-        for (int i = 0; i <= 4; i++) {
-            switch (i) {
-                case 0:
-                    buttons[i].setBackgroundResource(R.drawable.button_left_unselected);
-                    break;
-                case 4:
-                    buttons[i].setBackgroundResource(R.drawable.button_right_unselected);
-                    break;
-                    default:
-                        buttons[i].setBackgroundResource(R.drawable.button_center_unselected);
-                        break;
-            }
-            buttons[i].setTextColor(getResources().getColor(R.color.colorBrightBlue));
-        }
-    }
-
     private void showGridModeChangeDialog() {
-        final Dialog gridChangeDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        final Dialog gridChangeDialog = new Dialog(DataActivity_HighPerformance.this, R.style.bottomDialog);
         gridChangeDialog.setCanceledOnTouchOutside(true);
         gridChangeDialog.setCancelable(true);
         Window window = gridChangeDialog.getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
-        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_gridmode, null);
+        View view = View.inflate(DataActivity_HighPerformance.this, R.layout.result_data_dialog_gridmode, null);
         window.setContentView(view);
         final Switch verticalSwitch = view.findViewById(R.id.result_data_dialog_gridmode_verticalswitch);
         final Switch horizontalSwitch = view.findViewById(R.id.result_data_dialog_gridmode_horizontalswitch);
@@ -1195,13 +958,13 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void showColorCustomDialog() {
-        final Dialog colorCustomDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        final Dialog colorCustomDialog = new Dialog(DataActivity_HighPerformance.this, R.style.bottomDialog);
         colorCustomDialog.setCancelable(true);
         colorCustomDialog.setCanceledOnTouchOutside(true);
         Window window = colorCustomDialog.getWindow();
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
-        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_dotcolor, null);
+        View view = View.inflate(DataActivity_HighPerformance.this, R.layout.result_data_dialog_dotcolor, null);
         window.setContentView(view);
         final NiceSpinner lineSelector = view.findViewById(R.id.lineSelector);
         final List<String> lineSelectorContent = new ArrayList<>();
@@ -1232,10 +995,6 @@ public class DataActivity extends AppCompatActivity {
         final int decimalStandardRed = Integer.parseInt(lineChartProperties.getLineStandardPointColorARGB().substring(2, 4), 16);
         final int decimalStandardGreen = Integer.parseInt(lineChartProperties.getLineStandardPointColorARGB().substring(4, 6), 16);
         final int decimalStandardBlue = Integer.parseInt(lineChartProperties.getLineStandardPointColorARGB().substring(6, 8), 16);
-        final int decimalFittingAlpha = Integer.parseInt(lineChartProperties.getLineFittingPointColorARGB().substring(0, 2), 16);
-        final int decimalFittingRed = Integer.parseInt(lineChartProperties.getLineFittingPointColorARGB().substring(2, 4), 16);
-        final int decimalFittingGreen = Integer.parseInt(lineChartProperties.getLineFittingPointColorARGB().substring(4, 6), 16);
-        final int decimalFittingBlue = Integer.parseInt(lineChartProperties.getLineFittingPointColorARGB().substring(6, 8), 16);
         // Probably initiation should be in "onNothingSelected", but it does not work
         alphaBar.setProgress(decimalOriginalAlpha);
         alphaText.setText(String.valueOf(decimalOriginalAlpha));
@@ -1283,17 +1042,6 @@ public class DataActivity extends AppCompatActivity {
                         blueText.setText(String.valueOf(decimalStandardBlue));
                         showColorBallBackground.setColor(Color.parseColor("#"+lineChartProperties.getLineStandardPointColorARGB()));
                         break;
-                    case 3:
-                        alphaBar.setProgress(decimalFittingAlpha);
-                        alphaText.setText(String.valueOf(decimalFittingAlpha));
-                        redBar.setProgress(decimalFittingRed);
-                        redText.setText(String.valueOf(decimalFittingRed));
-                        greenBar.setProgress(decimalFittingGreen);
-                        greenText.setText(String.valueOf(decimalFittingGreen));
-                        blueBar.setProgress(decimalFittingBlue);
-                        blueText.setText(String.valueOf(decimalFittingBlue));
-                        showColorBallBackground.setColor(Color.parseColor("#"+lineChartProperties.getLineFittingPointColorARGB()));
-                        break;
                 }
             }
 
@@ -1327,9 +1075,6 @@ public class DataActivity extends AppCompatActivity {
                         break;
                     case 2:
                         lineChartProperties.setLineStandardPointColorARGB(colorBallColorString);
-                        break;
-                    case 3:
-                        lineChartProperties.setLineFittingPointColorARGB(colorBallColorString);
                         break;
                 }
                 initLineChart();
@@ -1371,9 +1116,6 @@ public class DataActivity extends AppCompatActivity {
                     case 2:
                         lineChartProperties.setLineStandardPointColorARGB(colorBallColorString);
                         break;
-                    case 3:
-                        lineChartProperties.setLineFittingPointColorARGB(colorBallColorString);
-                        break;
                 }
                 initLineChart();
             }
@@ -1414,9 +1156,6 @@ public class DataActivity extends AppCompatActivity {
                     case 2:
                         lineChartProperties.setLineStandardPointColorARGB(colorBallColorString);
                         break;
-                    case 3:
-                        lineChartProperties.setLineFittingPointColorARGB(colorBallColorString);
-                        break;
                 }
                 initLineChart();
             }
@@ -1456,9 +1195,6 @@ public class DataActivity extends AppCompatActivity {
                         break;
                     case 2:
                         lineChartProperties.setLineStandardPointColorARGB(colorBallColorString);
-                        break;
-                    case 3:
-                        lineChartProperties.setLineFittingPointColorARGB(colorBallColorString);
                         break;
                 }
                 initLineChart();

@@ -4,5 +4,14 @@
     <dimen name="dp_25dp">25dp</dimen>
     <dimen name="dp_10dp">10dp</dimen>
     <dimen name="colorball_radius">18dp</dimen>
+    <dimen name="dotColor_titlelength">50dp</dimen>
+    <dimen name="dotColor_seekbarlength">200dp</dimen>
+    <dimen name="dotColor_numberlength">30dp</dimen>
+
+    <string-array name="lineKinds">
+        <item>Original Dots Color</item>
+        <item>Filtered Dots Color</item>
+        <item>Standard Dots Color</item>
+    </string-array>
 
 </resources>

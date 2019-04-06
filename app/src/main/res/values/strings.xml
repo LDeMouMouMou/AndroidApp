@@ -38,6 +38,8 @@
     <string name="Receive">Receive Range:</string>
     <string name="pointNumberSeekBar">Number of points used for calculation:</string>
     <string name="angleNumberSeekBar">Total points, more points means less interval:</string>
+    <string name="setting_highperformance">High Performance Mode</string>
+    <string name="setting_highprecision">High Precision Mode</string>
     <string name="Pop_View">VIEW</string>
     <string name="Pop_Info">INFO</string>
     <string name="Pop_Del">DELETE</string>
@@ -53,9 +55,10 @@
     <string name="PrefixProgress_Title">Slide to Change the Parameter</string>
     <string name="EnterRotateCenter">Enter Rotate Center Coordinate</string>
     <string name="EnterRotateCenterHint">*Leave empty blanks will remain their original value</string>
-    <string name="DataOnly">Only Original Data</string>
-    <string name="FilterOnly">Only Filtered Data</string>
-    <string name="FilterMixed">Filtered and Original Data</string>
+    <string name="OriginalDotsOnly">Original Data Dots</string>
+    <string name="FilteredDotsOnly">Filtered Data Dots</string>
+    <string name="FittingLineOnly">Fitting Data Line</string>
+    <string name="StandardLineOnly">Standard Data Line</string>
     <string name="xposition">Axis X Position</string>
     <string name="yposition">Axis Y Position</string>
     <string name="verticalgrid">Vertical Grid Line</string>
@@ -63,10 +66,12 @@
     <string name="dotShape">Chart Dot Shape</string>
     <string name="dotSize">Chart Dot Size</string>
     <string name="dotLines">Chart Lines Between Dots</string>
+    <string name="lineSize">Chart Line Size</string>
     <string name="chartFilled">Chart Filled Below Lines</string>
     <string name="originalDotsColor">Original Dots Color</string>
     <string name="filteredDotsColor">Filtered Dots Color</string>
-    <string name="standardDotsColor">Standard Dots Color</string>
+    <string name="standardDotsColor">Standard Line Color</string>
+    <string name="fittingDotsColor">Fitting Line Color</string>
 
 
 </resources>

@@ -6,7 +6,7 @@
     android:background="@color/colorWhite" >
 
     <org.angmarch.views.NiceSpinner
-        android:id="@+id/result_data_dialog_dotprefer_spinner"
+        android:id="@+id/result_data_dialog_lineprefer_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,72 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
-            android:text="@string/dotShape"
+            android:text="@string/lineSize"
             android:textSize="16sp"
             android:textColor="@color/colorBlack"
             android:typeface="monospace"/>
 
         <Button
-            android:id="@+id/result_data_dialog_dotshape_circle"
-            android:layout_width="60dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="@dimen/dp_10dp"
-            android:background="@drawable/button_left_unselected"
-            android:textAlignment="center"
-            android:typeface="monospace"
-            android:textSize="12sp"
-            android:textColor="@color/colorBrightBlue"
-            android:text="Circle"/>
-
-        <Button
-            android:id="@+id/result_data_dialog_dotshape_square"
-            android:layout_width="60dp"
-            android:layout_height="25dp"
-            android:background="@drawable/button_center_unselected"
-            android:textAlignment="center"
-            android:typeface="monospace"
-            android:textSize="12sp"
-            android:textColor="@color/colorBrightBlue"
-            android:text="Square" />
-
-        <Button
-            android:id="@+id/result_data_dialog_dotshape_diamond"
-            android:layout_width="60dp"
-            android:layout_height="25dp"
-            android:background="@drawable/button_right_unselected"
-            android:textAlignment="center"
-            android:typeface="monospace"
-            android:textSize="12sp"
-            android:textColor="@color/colorBrightBlue"
-            android:text="Diamond"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="center"
-        android:background="@drawable/grayline" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:text="@string/dotSize"
-            android:textSize="16sp"
-            android:textColor="@color/colorBlack"
-            android:typeface="monospace"/>
-
-        <Button
-            android:id="@+id/result_data_dialog_dotsize_1"
+            android:id="@+id/result_data_dialog_linesize_1"
             android:layout_width="36dp"
             android:layout_height="25dp"
             android:background="@drawable/button_left_unselected"
@@ -109,7 +50,7 @@
             android:text="1"/>
 
         <Button
-            android:id="@+id/result_data_dialog_dotsize_2"
+            android:id="@+id/result_data_dialog_linesize_2"
             android:layout_width="36dp"
             android:layout_height="25dp"
             android:background="@drawable/button_center_unselected"
@@ -120,7 +61,7 @@
             android:text="2"/>
 
         <Button
-            android:id="@+id/result_data_dialog_dotsize_3"
+            android:id="@+id/result_data_dialog_linesize_3"
             android:layout_width="36dp"
             android:layout_height="25dp"
             android:background="@drawable/button_center_unselected"
@@ -131,7 +72,7 @@
             android:text="3"/>
 
         <Button
-            android:id="@+id/result_data_dialog_dotsize_4"
+            android:id="@+id/result_data_dialog_linesize_4"
             android:layout_width="36dp"
             android:layout_height="25dp"
             android:background="@drawable/button_center_unselected"
@@ -142,7 +83,7 @@
             android:text="4"/>
 
         <Button
-            android:id="@+id/result_data_dialog_dotsize_5"
+            android:id="@+id/result_data_dialog_linesize_5"
             android:layout_width="36dp"
             android:layout_height="25dp"
             android:background="@drawable/button_right_unselected"
@@ -151,37 +92,6 @@
             android:textSize="14sp"
             android:textColor="@color/colorBrightBlue"
             android:text="5"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="center"
-        android:background="@drawable/grayline" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/result_data_dialog_dotprefer_dotlinestext"
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:text="@string/dotLines"
-            android:textSize="16sp"
-            android:textColor="@color/colorBlack"
-            android:typeface="monospace"/>
-
-        <Switch
-            android:id="@+id/result_data_dialog_dotprefer_dotlines"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -210,7 +120,7 @@
             android:typeface="monospace"/>
 
         <Switch
-            android:id="@+id/result_data_dialog_dotprefer_linefilled"
+            android:id="@+id/result_data_dialog_lineprefer_linefilled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -223,7 +133,7 @@
         android:background="@drawable/grayline" />
 
     <Button
-        android:id="@+id/result_data_dialog_dotprefer_confirm"
+        android:id="@+id/result_data_dialog_lineprefer_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"

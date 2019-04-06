@@ -136,6 +136,11 @@ public class DataSaver {
         return sharedPreferences.getBoolean(type, false);
     }
 
+    public float getFloatParams(String type, String saverName) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
+        return sharedPreferences.getFloat(type, 0);
+    }
+
     public void delSaver(String saverName) {
         SharedPreferences sharedPreferences1 = context.getSharedPreferences("allDataSaverInfo", Context.MODE_PRIVATE);
         SharedPreferences sharedPreferences2 = context.getSharedPreferences(saverName, Context.MODE_PRIVATE);
@@ -151,6 +156,7 @@ public class DataSaver {
         editor2.clear();
         editor1.apply();
         editor2.apply();
+
     }
 
 }

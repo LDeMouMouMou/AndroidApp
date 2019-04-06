@@ -2,49 +2,123 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/colorWhite" >
+    android:background="@color/colorWhite">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
         android:orientation="horizontal" >
 
-        <TextView
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/lineSelector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:text="@string/originalDotsColor"
-            android:textSize="16sp"
             android:textColor="@color/colorBlack"
-            android:typeface="monospace"/>
+            android:textSize="16sp"
+            android:typeface="monospace"
+            app:arrowTint="@color/colorBrightBlue" />
 
-        <Button
+        <ImageView
+            android:id="@+id/result_data_dialog_dotcolor_show"
             android:layout_width="@dimen/colorball_radius"
             android:layout_height="@dimen/colorball_radius"
+            android:layout_gravity="center"
             android:layout_marginStart="20dp"
             android:background="@drawable/colorball_black_unselected"/>
 
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_brightblue_unselected"/>
+    </LinearLayout>
 
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_yellow_unselected"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="@drawable/grayline" />
 
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_lightblue_unselected"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/dotColor_titlelength"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:typeface="monospace"
+            android:textColor="@color/colorBlack"
+            android:text="Alpha"/>
+
+        <SeekBar
+            android:id="@+id/data_data_dialog_dotcolor_alphabar"
+            android:layout_width="220dp"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/data_data_dialog_dotcolor_alphatext"
+            android:layout_width="@dimen/dotColor_numberlength"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="12"
+            android:textSize="16sp"
+            android:typeface="serif" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="@drawable/grayline" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/dotColor_titlelength"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:typeface="monospace"
+            android:textColor="@color/colorBlack"
+            android:text="Red"/>
+
+        <SeekBar
+            android:id="@+id/data_data_dialog_dotcolor_redbar"
+            android:layout_width="220dp"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/data_data_dialog_dotcolor_redtext"
+            android:layout_width="@dimen/dotColor_numberlength"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dp_10"
+            android:textAlignment="center"
+            android:text="12"
+            android:textSize="16sp"
+            android:typeface="serif" />
 
     </LinearLayout>
 
@@ -57,43 +131,38 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
+        android:layout_gravity="center"
         android:orientation="horizontal" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dotColor_titlelength"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:text="@string/filteredDotsColor"
+            android:layout_gravity="center"
             android:textSize="16sp"
+            android:typeface="monospace"
             android:textColor="@color/colorBlack"
-            android:typeface="monospace"/>
+            android:text="Green"/>
 
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_brightblue_unselected"/>
+        <SeekBar
+            android:id="@+id/data_data_dialog_dotcolor_greenbar"
+            android:layout_width="220dp"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:max="255" />
 
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_yellow_unselected"/>
-
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_lightblue_unselected"/>
-
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_lightblue_unselected"/>
+        <TextView
+            android:id="@+id/data_data_dialog_dotcolor_greentext"
+            android:layout_width="@dimen/dotColor_numberlength"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="12"
+            android:textSize="16sp"
+            android:typeface="serif" />
 
     </LinearLayout>
 
@@ -106,43 +175,38 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
+        android:layout_gravity="center"
         android:orientation="horizontal" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dotColor_titlelength"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:text="@string/standardDotsColor"
+            android:layout_gravity="center"
             android:textSize="16sp"
+            android:typeface="monospace"
             android:textColor="@color/colorBlack"
-            android:typeface="monospace"/>
+            android:text="Blue"/>
 
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_brightblue_unselected"/>
+        <SeekBar
+            android:id="@+id/data_data_dialog_dotcolor_bluebar"
+            android:layout_width="220dp"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:max="255" />
 
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_yellow_unselected"/>
-
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_lightblue_unselected"/>
-
-        <Button
-            android:layout_width="@dimen/colorball_radius"
-            android:layout_height="@dimen/colorball_radius"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/colorball_lightblue_unselected"/>
+        <TextView
+            android:id="@+id/data_data_dialog_dotcolor_bluetext"
+            android:layout_width="@dimen/dotColor_numberlength"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dp_10"
+            android:textAlignment="center"
+            android:text="12"
+            android:textSize="16sp"
+            android:typeface="serif" />
 
     </LinearLayout>
 
@@ -153,13 +217,13 @@
         android:background="@drawable/grayline" />
 
     <Button
-        android:id="@+id/result_data_dialog_dotcolor_cancel"
+        android:id="@+id/result_data_dialog_dotcolor_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         android:textSize="16sp"
         android:typeface="monospace"
-        android:text="@string/Pop_Cancel"
+        android:text="@string/Confirm"
         android:textColor="@color/colorBlack"/>
 
 </LinearLayout>
