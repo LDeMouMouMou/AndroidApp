@@ -6,11 +6,11 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/result_data_dialog_filter_median"
+        android:id="@+id/result_data_dialog_fitting_lsm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        android:text="@string/FilterPop_Median"
+        android:text="@string/fitting_lsm"
         android:textSize="16sp"
         android:textColor="@color/colorBlack"
         android:typeface="monospace"/>
@@ -22,7 +22,7 @@
         android:background="@drawable/grayline" />
 
     <Button
-        android:id="@+id/result_data_dialog_filter_confirm"
+        android:id="@+id/result_data_dialog_fitting_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"

@@ -18,11 +18,11 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/backHomepage"
+        android:id="@+id/result_data_showInfo"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center"
-        android:background="@drawable/button_arrowright"
+        android:background="@drawable/result_info"
         android:layout_marginStart="150dp" />
 
     <Button

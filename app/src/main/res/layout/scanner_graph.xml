@@ -7,11 +7,11 @@
 
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/ScannerChart"
-        android:layout_width="330dp"
+        android:layout_width="match_parent"
         android:layout_height="330dp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center"
-        android:background="@drawable/bg_bluetoothlist" />
+        android:background="@color/colorWhite" />
 
     <ProgressBar
         android:id="@+id/scannerProgress"

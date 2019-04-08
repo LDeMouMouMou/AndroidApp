@@ -7,6 +7,10 @@
     <dimen name="dotColor_titlelength">50dp</dimen>
     <dimen name="dotColor_seekbarlength">200dp</dimen>
     <dimen name="dotColor_numberlength">30dp</dimen>
+    <dimen name="legendsSize">15dp</dimen>
+    <dimen name="legendsLineLength">30dp</dimen>
+    <dimen name="legendsLineWidth">5dp</dimen>
+    <dimen name="legendsSpace">15dp</dimen>
 
     <string-array name="lineKinds">
         <item>Original Dots Color</item>

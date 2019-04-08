@@ -72,6 +72,8 @@
     <string name="filteredDotsColor">Filtered Dots Color</string>
     <string name="standardDotsColor">Standard Line Color</string>
     <string name="fittingDotsColor">Fitting Line Color</string>
+    <string name="more"><u>see details…</u></string>
+    <string name="fitting_lsm">Least Squares Method</string>
 
 
 </resources>

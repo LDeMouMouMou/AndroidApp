@@ -1,5 +1,6 @@
 package com.example.measureit.Part_NEW.DataSession;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,6 +26,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bravin.btoast.BToast;
 import com.example.measureit.MainActivity;
 import com.example.measureit.MyClass.DataCalculation;
 import com.example.measureit.MyClass.DataSaver;
@@ -39,6 +42,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
@@ -68,36 +72,39 @@ public class DataActivity extends AppCompatActivity {
     private float rotateCenterCoordinateY = 0;
     private float scaleFactor = (float) 0.1;
     private List<DataConfigItem> dataConfigItems = new ArrayList<>();
+    private boolean convertButtonsFlag = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data);
         dataSaverName = getIntent().getStringExtra("dataSaverName");
+        BToast.Config.getInstance().apply(getApplication());
         Button backLastButton = findViewById(R.id.backLastPage);
-        Button backHomeButton = findViewById(R.id.backHomepage);
-        if (getIntent().getBooleanExtra("isBackable", false)) {
-            backLastButton.setVisibility(View.VISIBLE);
-            backHomeButton.setVisibility(View.INVISIBLE);
-            backLastButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        Button infoButton = findViewById(R.id.result_data_showInfo);
+        backLastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getIntent().getBooleanExtra("isBackable", false)) {
                     startActivity(new Intent(DataActivity.this, RecordActivity.class));
+                    finish();
                 }
-            });
-        }
-        else {
-            backLastButton.setVisibility(View.INVISIBLE);
-            backHomeButton.setVisibility(View.VISIBLE);
-            backHomeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                else {
                     startActivity(new Intent(DataActivity.this, MainActivity.class));
+                    finish();
                 }
-            });
-        }
+            }
+        });
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInfoDialog();
+            }
+        });
         lineChartView = findViewById(R.id.dataChart);
-        ListView listView = findViewById(R.id.dataConfigMenu);
+        BouncyListView listView = findViewById(R.id.dataConfigMenu);
+        final Button manifactureShow = findViewById(R.id.data_manifacture_show);
         Button moveChartUp = findViewById(R.id.data_moveup);
         Button moveChartDown = findViewById(R.id.data_movedown);
         Button moveChartLeft = findViewById(R.id.data_moveleft);
@@ -107,6 +114,10 @@ public class DataActivity extends AppCompatActivity {
         Button scaleChartUp = findViewById(R.id.data_scaleup);
         Button scaleChartDown = findViewById(R.id.data_scaledown);
         Button rollBackChart = findViewById(R.id.data_rollback);
+        final Button[] convertButtons = new Button[]{manifactureShow, moveChartUp, moveChartDown,
+            moveChartLeft, moveChartRight, rotateChartLeft, rotateChartRight, scaleChartUp,
+            scaleChartDown, rollBackChart};
+        setConvertButtonsInvisible(convertButtons);
         dataSaver = new DataSaver();
         dataSaver.saverInit(getApplicationContext(), "output");
         originalDataCalculation = new DataCalculation();
@@ -122,8 +133,60 @@ public class DataActivity extends AppCompatActivity {
         getFittingDataList(true);
         initConfigMenuItems();
         initLineChart();
+        setLineChartLegends();
         DataConfigAdapter dataConfigAdapter = new DataConfigAdapter(DataActivity.this, R.layout.result_data_listviewitem, dataConfigItems);
         listView.setAdapter(dataConfigAdapter);
+        manifactureShow.setOnTouchListener(new View.OnTouchListener() {
+            private int startX;
+            private int startY;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startX = (int) event.getRawX();
+                        startY = (int) event.getRawY();
+                        break;
+                        case MotionEvent.ACTION_MOVE:
+                            int move2X = (int) event.getRawX();
+                            int move2Y = (int) event.getRawY();
+                            int moveX = move2X - startX;
+                            int moveY = move2Y - startY;
+                            int button_left = 0;
+                            int button_right = button_left + manifactureShow.getWidth();
+                            int button_top = manifactureShow.getTop();
+                            button_top += moveY;
+                            // Constraint button moving space
+                            if (button_top < lineChartView.getTop()) {
+                                button_top = lineChartView.getTop();
+                            }
+                            if (button_top > lineChartView.getBottom() - manifactureShow.getHeight()) {
+                                button_top = lineChartView.getBottom() - manifactureShow.getHeight();
+                            }
+                            int button_bottom = button_top + manifactureShow.getHeight();
+                            manifactureShow.layout(button_left, button_top, button_right, button_bottom);
+                            setConvertButtonsVisible(convertButtons);
+                            startX = move2X;
+                            startY = move2Y;
+                            return false;
+                    case MotionEvent.ACTION_UP:
+                        return false;
+                }
+                return DataActivity.super.onTouchEvent(event);
+            }
+        });
+        manifactureShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (convertButtonsFlag) {
+                    setConvertButtonsInvisible(convertButtons);
+                    convertButtonsFlag = false;
+                }
+                else {
+                    setConvertButtonsVisible(convertButtons);
+                    convertButtonsFlag = true;
+                }
+            }
+        });
         moveChartUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,10 +292,37 @@ public class DataActivity extends AppCompatActivity {
                         showGridModeChangeDialog();
                         break;
                     case "Save Data as…":
+                        showSavingDataDialog();
                         break;
                 }
             }
         });
+    }
+
+    private void setConvertButtonsInvisible(@NonNull Button[] buttons) {
+        Button button0 = buttons[0];
+        for (int i = 1; i < buttons.length; i++) {
+            buttons[i].layout(button0.getLeft(), button0.getTop(), button0.getRight(), button0.getBottom());
+            buttons[i].setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void setConvertButtonsVisible(@NonNull Button[] buttons) {
+        Button button0 = buttons[0];
+        int spaceValue = dip2dx(12);
+        for (int i = 1; i < buttons.length; i++) {
+            buttons[i].setVisibility(View.VISIBLE);
+            int left = buttons[i-1].getRight()+spaceValue;
+            int right = left + buttons[i].getWidth();
+            int top = button0.getTop();
+            int bottom = top + buttons[i].getHeight();
+            buttons[i].layout(left, top, right, bottom);
+        }
+    }
+
+    private int dip2dx(float dpValue) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 
     private void getOriginalDataList() {
@@ -302,10 +392,40 @@ public class DataActivity extends AppCompatActivity {
         }
     }
 
+    private void showInfoDialog() {
+        Dialog infoDialog = new Dialog(DataActivity.this, R.style.centerDialog);
+        infoDialog.setCancelable(true);
+        infoDialog.setCanceledOnTouchOutside(true);
+        Window window = infoDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_info, null);
+        TextView modeText = view.findViewById(R.id.result_data_dialog_info_mode);
+        TextView pointsText = view.findViewById(R.id.result_data_dialog_info_points);
+        TextView radiusText = view.findViewById(R.id.result_data_dialog_info_radius);
+        TextView timeText = view.findViewById(R.id.result_data_dialog_info_time);
+        TextView configurationText = view.findViewById(R.id.result_data_dialog_info_configuation);
+        modeText.setText(dataSaver.getBooleanParams("randomData", dataSaverName)?"Randomly Simulated":"Real-Time");
+        String pointsTextContent = "Total "+dataSaver.getIntParams("pointsProgress", dataSaverName)*
+                dataSaver.getIntParams("angleProgress", dataSaverName)+" Points in 180 Degrees";
+        pointsText.setText(pointsTextContent);
+        String radiusTextContent = "Standard Radius: "+dataSaver.getFloatParams("stdRadius", dataSaverName)+
+                " (from "+dataSaver.getFloatParams("minRadius", dataSaverName)+" to "+
+                dataSaver.getFloatParams("maxRadius", dataSaverName)+")";
+        radiusText.setText(radiusTextContent);
+        String timeTextContent = "Created on "+dataSaverName.substring(dataSaverName.indexOf("@")+1);
+        timeText.setText(timeTextContent);
+        String configurationTextContent = "Using Configuration: "+dataSaverName.substring(0, dataSaverName.indexOf("@"));
+        configurationText.setText(configurationTextContent);
+        window.setContentView(view);
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        infoDialog.show();
+    }
+
     private void initLineChart() {
         LineChartData data = new LineChartData();
         List<Line> lines = new ArrayList<>();
         List<List<PointValue>> allPointValues = new ArrayList<>();
+        final List<String> lineName = new ArrayList<>();
         allPointValues.add(originalDataPointValues);
         allPointValues.add(filteredDataPointValues);
         allPointValues.add(standardDataPointValues);
@@ -317,6 +437,20 @@ public class DataActivity extends AppCompatActivity {
         };
         for (int i = 0; i < 4; i++) {
             if (hasLines[i]) {
+                switch (i) {
+                    case 0:
+                        lineName.add("Original Data");
+                        break;
+                    case 1:
+                        lineName.add("Filtered Data");
+                        break;
+                    case 2:
+                        lineName.add("Standard Line");
+                        break;
+                    case 3:
+                        lineName.add("Fitting Line");
+                        break;
+                }
                 Line line = new Line(allPointValues.get(i)).setColor(Color.parseColor("#"+
                         lineChartProperties.getLineAllPointColorARGB()[i]));
                 if (i == 0 || i == 1) {
@@ -376,7 +510,11 @@ public class DataActivity extends AppCompatActivity {
         } else {
             data.setAxisYRight(axisY);
         }
+        data.setValueLabelBackgroundEnabled(true);
+        data.setValueLabelBackgroundAuto(false);
+        data.setValueLabelBackgroundColor(getResources().getColor(R.color.colorBrightBlue));
         // Line Setting
+        lineChartView.setScrollEnabled(true);
         lineChartView.setInteractive(true);
         lineChartView.setFocusableInTouchMode(true);
         lineChartView.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
@@ -387,6 +525,68 @@ public class DataActivity extends AppCompatActivity {
         // Viewport v = new Viewport(lineChartView.getMaximumViewport());
         // lineChartView.setCurrentViewport(v);
         lineChartView.startDataAnimation();
+        lineChartView.setOnValueTouchListener(new LineChartOnValueSelectListener() {
+            @Override
+            public void onValueSelected(int i, int i1, PointValue pointValue) {
+//                Toast.makeText(DataActivity.this, lineName.get(i)
+//                                +" at x= "+String.valueOf(Math.round(pointValue.getX()*10000)/10000.0)
+//                                +" y= "+String.valueOf(Math.round(pointValue.getY()*10000)/10000.0),
+//                        Toast.LENGTH_SHORT).show();
+                BToast.info(DataActivity.this).text(lineName.get(i)
+                        +" at x= "+String.valueOf(Math.round(pointValue.getX()*1000)/1000.0)
+                        +" y= "+String.valueOf(Math.round(pointValue.getY()*1000)/1000.0))
+                        .animationGravity(Gravity.BOTTOM).show();
+            }
+
+            @Override
+            public void onValueDeselected() {
+
+            }
+        });
+        setLineChartLegends();
+    }
+
+    private void setLineChartLegends() {
+        Button originalDotLegend = findViewById(R.id.result_data_legend_original);
+        Button filteredDotLegend = findViewById(R.id.result_data_legend_filtered);
+        Button standardLineLegend = findViewById(R.id.result_data_legend_standard);
+        Button fittingLineLegend = findViewById(R.id.result_data_legend_fitting);
+        Button[] buttons = new Button[]{originalDotLegend, filteredDotLegend, standardLineLegend, fittingLineLegend};
+        TextView originalDotText = findViewById(R.id.result_data_legend_originalText);
+        TextView filteredDotText = findViewById(R.id.result_data_legend_filteredText);
+        TextView standardLineText = findViewById(R.id.result_data_legend_standardText);
+        TextView fittingLineText = findViewById(R.id.result_data_legend_fittingText);
+        TextView[] textViews = new TextView[]{originalDotText, filteredDotText, standardLineText, fittingLineText};
+        GradientDrawable originalButtonBackground = (GradientDrawable) originalDotLegend.getBackground();
+        GradientDrawable filteredButtonBackground = (GradientDrawable) filteredDotLegend.getBackground();
+        GradientDrawable standardButtonBackground = (GradientDrawable) standardLineLegend.getBackground();
+        GradientDrawable fittingButtonBackground = (GradientDrawable) fittingLineLegend.getBackground();
+        originalButtonBackground.setColor(Color.parseColor("#"+lineChartProperties.getLineOriginalPointColorARGB()));
+        filteredButtonBackground.setColor(Color.parseColor("#"+lineChartProperties.getLineFilteredPointColorARGB()));
+        standardButtonBackground.setColor(Color.parseColor("#"+lineChartProperties.getLineStandardPointColorARGB()));
+        fittingButtonBackground.setColor(Color.parseColor("#"+lineChartProperties.getLineFittingPointColorARGB()));
+        originalDotText.setTextColor(getResources().getColor(lineChartProperties.getLineHasOriginalLine()?
+                R.color.colorBlack:R.color.colorDarkGray));
+        filteredDotText.setTextColor(getResources().getColor(lineChartProperties.getLineHasFilteredLine()?
+                R.color.colorBlack:R.color.colorDarkGray));
+        standardLineText.setTextColor(getResources().getColor(lineChartProperties.getLineHasStandardLine()?
+                R.color.colorBlack:R.color.colorDarkGray));
+        fittingLineText.setTextColor(getResources().getColor(lineChartProperties.getLineHasStandardLine()?
+                R.color.colorBlack:R.color.colorDarkGray));
+        for (int i = 0; i < 4; i++) {
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showColorCustomDialog();
+                }
+            });
+            textViews[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showChartLineDisplaySelectionDialog();
+                }
+            });
+        }
     }
 
     private void initConfigMenuItems() {
@@ -492,7 +692,7 @@ public class DataActivity extends AppCompatActivity {
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
         View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_filtertype, null);
-        view.findViewById(R.id.result_data_dialog_filter_cancel).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.result_data_dialog_filter_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filterOptionDialog.dismiss();
@@ -502,7 +702,8 @@ public class DataActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 filterProperties.setFilterMode("median");
-                filterOptionDialog.dismiss();
+                Toast.makeText(DataActivity.this, "Median Filter Applied", Toast.LENGTH_SHORT)
+                        .show();
             }
         });
         window.setContentView(view);
@@ -511,7 +712,28 @@ public class DataActivity extends AppCompatActivity {
     }
 
     private void showFittingOptionDialog() {
-
+        final Dialog fittingOptionDialog = new Dialog(DataActivity.this, R.style.bottomDialog);
+        fittingOptionDialog.setCancelable(true);
+        fittingOptionDialog.setCanceledOnTouchOutside(true);
+        Window window = fittingOptionDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        View view = View.inflate(DataActivity.this, R.layout.result_data_dialog_fittingtype, null);
+        view.findViewById(R.id.result_data_dialog_fitting_lsm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DataActivity.this, "Least Sqaures Method Applied", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+        view.findViewById(R.id.result_data_dialog_fitting_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fittingOptionDialog.dismiss();
+            }
+        });
+        window.setContentView(view);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        fittingOptionDialog.show();
     }
 
     private void showChartLineDisplaySelectionDialog() {
@@ -1482,6 +1704,10 @@ public class DataActivity extends AppCompatActivity {
         });
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         colorCustomDialog.show();
+    }
+
+    private void showSavingDataDialog() {
+
     }
 
     private boolean isNullEmptyBlank(@NonNull String str){

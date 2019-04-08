@@ -331,8 +331,8 @@ public class ConfigurationEdition extends AppCompatActivity {
         invalidateCheckBox(EDCheck);
         invalidateEditText(padHeight);
         headInsideRadius.setHint("Enter the Standard Radius(mm)");
-        curvedSurfaceHeight.setHint("Enter the Maxium Radius(mm)");
-        headTotalHeight.setHint("Enter the Minimum Radius(mm)");
+        curvedSurfaceHeight.setHint("Enter the Minimum Radius(mm)");
+        headTotalHeight.setHint("Enter the Maximum Radius(mm)");
     }
 
     private void recoverFromRandomDataState() {
@@ -437,19 +437,19 @@ public class ConfigurationEdition extends AppCompatActivity {
                 }
             }
             float stdRadius = Float.parseFloat(headInsideRadius.getText().toString());
-            float maxRadius = Float.parseFloat(curvedSurfaceHeight.getText().toString());
-            float minRadius = Float.parseFloat(headTotalHeight.getText().toString());
+            float minRadius = Float.parseFloat(curvedSurfaceHeight.getText().toString());
+            float maxRadius = Float.parseFloat(headTotalHeight.getText().toString());
             if (minRadius > maxRadius) {
                 isPassed = false;
-                headTotalHeight.setError("This Cannot be larger than Maximum!");
+                curvedSurfaceHeight.setError("This Cannot be larger than Maximum!");
             }
             if (minRadius > stdRadius) {
                 isPassed = false;
-                headTotalHeight.setError("This Cannot be larger than Standard!");
+                curvedSurfaceHeight.setError("This Cannot be larger than Standard!");
             }
             if (maxRadius < stdRadius) {
                 isPassed = false;
-                headInsideRadius.setError("This Cannot be larger than Maximum!");
+                curvedSurfaceHeight.setError("This Cannot be larger than Maximum!");
             }
             return isPassed;
         }

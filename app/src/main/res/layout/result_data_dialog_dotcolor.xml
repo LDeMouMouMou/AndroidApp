@@ -21,7 +21,7 @@
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
             android:typeface="monospace"
-            app:arrowTint="@color/colorBrightBlue" />
+            app:arrowTint="@color/colorDarkGray" />
 
         <ImageView
             android:id="@+id/result_data_dialog_dotcolor_show"

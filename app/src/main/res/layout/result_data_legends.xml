@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:overScrollMode="always" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/result_data_legend_original"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/legendsSpace"
+            android:layout_width="@dimen/legendsSize"
+            android:layout_height="@dimen/legendsSize"
+            android:background="@drawable/colorball_black_unselected"/>
+
+        <TextView
+            android:id="@+id/result_data_legend_originalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Original"
+            android:layout_marginStart="@dimen/legendsSpace"
+            android:textColor="@color/colorBlack"
+            android:typeface="monospace"/>
+
+        <Button
+            android:id="@+id/result_data_legend_filtered"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/legendsSpace"
+            android:layout_width="@dimen/legendsSize"
+            android:layout_height="@dimen/legendsSize"
+            android:background="@drawable/colorball_black_unselected"/>
+
+        <TextView
+            android:id="@+id/result_data_legend_filteredText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filtered"
+            android:layout_marginStart="@dimen/legendsSpace"
+            android:textColor="@color/colorBlack"
+            android:typeface="monospace"/>
+
+        <Button
+            android:id="@+id/result_data_legend_standard"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/legendsSpace"
+            android:layout_width="@dimen/legendsLineLength"
+            android:layout_height="@dimen/legendsLineWidth"
+            android:background="@drawable/colorline"/>
+
+        <TextView
+            android:id="@+id/result_data_legend_standardText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Standard"
+            android:layout_marginStart="@dimen/legendsSpace"
+            android:textColor="@color/colorBlack"
+            android:typeface="monospace"/>
+
+        <Button
+            android:id="@+id/result_data_legend_fitting"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/legendsSpace"
+            android:layout_width="@dimen/legendsLineLength"
+            android:layout_height="@dimen/legendsLineWidth"
+            android:background="@drawable/colorline"/>
+
+        <TextView
+            android:id="@+id/result_data_legend_fittingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fitting"
+            android:layout_marginEnd="@dimen/legendsSpace"
+            android:layout_marginStart="@dimen/legendsSpace"
+            android:textColor="@color/colorBlack"
+            android:typeface="monospace"/>
+
+    </LinearLayout>
+
+
+
+</HorizontalScrollView>

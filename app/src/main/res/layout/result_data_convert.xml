@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
     android:orientation="horizontal" >
+
 
     <Button
         android:id="@+id/data_moveleft"
         android:layout_width="@dimen/dp_25dp"
         android:layout_height="@dimen/dp_25dp"
+        android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/data_moveleft"/>
 
     <Button
@@ -67,4 +69,10 @@
         android:layout_marginStart="@dimen/converticon_space"
         android:background="@drawable/result_rollback"/>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/data_manifacture_show"
+        android:layout_width="@dimen/dp_25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/button_manifacture"/>
+
+</FrameLayout>

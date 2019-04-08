@@ -8,24 +8,39 @@
     <include layout="@layout/result_title"
         android:id="@+id/title" />
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/dataChart"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="330dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content">
+
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/dataChart"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            android:background="@color/colorWhite" />
+
+        <include layout="@layout/result_data_convert" />
+
+    </FrameLayout>
+
+    <include layout="@layout/result_data_legends" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_gravity="center"
-        android:background="@color/colorWhite" />
+        android:background="@drawable/grayline" />
 
-    <include layout="@layout/result_data_convert" />
-
-    <ListView
+    <com.example.measureit.Part_NEW.DataSession.BouncyListView
         android:id="@+id/dataConfigMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" >
+        android:overScrollMode="always">
 
-    </ListView>
+    </com.example.measureit.Part_NEW.DataSession.BouncyListView>
+
 
 
 </LinearLayout>

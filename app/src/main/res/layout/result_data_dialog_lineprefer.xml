@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:typeface="monospace"
         android:textSize="16sp"
-        android:textColor="@color/colorBlack"/>
+        android:textColor="@color/colorDarkGray"/>
 
     <TextView
         android:layout_width="match_parent"

@@ -476,7 +476,7 @@ public class DataActivity_HighPerformance extends AppCompatActivity {
         window.setGravity(Gravity.BOTTOM);
         window.setWindowAnimations(R.style.dialog_animation);
         View view = View.inflate(DataActivity_HighPerformance.this, R.layout.result_data_dialog_filtertype, null);
-        view.findViewById(R.id.result_data_dialog_filter_cancel).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.result_data_dialog_filter_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filterOptionDialog.dismiss();

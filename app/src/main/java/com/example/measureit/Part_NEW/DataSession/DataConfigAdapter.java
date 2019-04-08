@@ -33,6 +33,7 @@ public class DataConfigAdapter extends ArrayAdapter<DataConfigItem> {
         return !(dataConfigItem.getIsTitle());
     }
 
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
