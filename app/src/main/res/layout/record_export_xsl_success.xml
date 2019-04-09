@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_bluetoothlist">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_success"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dp_10dp"
+            android:textColor="@color/colorBlack"
+            android:text="@string/xsl_success"
+            android:textSize="16sp"
+            android:typeface="monospace" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/record_export_success_filepath"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/colorDarkGray"
+        android:text="@string/xsl_success"
+        android:typeface="normal"/>
+
+    <TextView
+        android:id="@+id/record_export_success_filename"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/colorDarkGray"
+        android:text="@string/xsl_success"
+        android:typeface="normal"/>
+
+    <Button
+        android:id="@+id/record_export_success_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:typeface="monospace"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:text="@string/success_preview"/>
+
+    <Button
+        android:id="@+id/record_export_success_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:typeface="monospace"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:text="@string/success_view"/>
+
+    <Button
+        android:id="@+id/record_export_success_systemshare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:typeface="monospace"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:text="@string/success_share_system"/>
+
+    <Button
+        android:id="@+id/record_export_success_dismiss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:typeface="monospace"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:text="Dismiss"/>
+
+</LinearLayout>

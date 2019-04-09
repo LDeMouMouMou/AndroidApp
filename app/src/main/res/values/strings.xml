@@ -74,6 +74,12 @@
     <string name="fittingDotsColor">Fitting Line Color</string>
     <string name="more"><u>see details…</u></string>
     <string name="fitting_lsm">Least Squares Method</string>
+    <string name="export_title">Export Data As…</string>
+    <string name="xsl_name">Specify a Name for the File</string>
+    <string name="xsl_success">Exported Successfully!</string>
+    <string name="success_preview">Open Preview in Current App</string>
+    <string name="success_view">Open in Another App</string>
+    <string name="success_share_system">Share File via System Apps</string>
 
 
 </resources>
