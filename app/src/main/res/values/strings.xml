@@ -80,6 +80,7 @@
     <string name="success_preview">Open Preview in Current App</string>
     <string name="success_view">Open in Another App</string>
     <string name="success_share_system">Share File via System Apps</string>
+    <string name="preview">Preview</string>
 
 
 </resources>

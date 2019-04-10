@@ -2,7 +2,7 @@ package com.example.measureit.MyClass;
 
 import android.content.Context;
 
-import com.example.measureit.Part_NEW.DataSession.ExcelDataItem;
+import com.example.measureit.Part_RECORD.ExcelDataItem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -98,8 +98,11 @@ public class ExcelUtil {
                     List<String> list = new ArrayList<>();
                     list.add(String.valueOf(excelDataItem.getAngle()));
                     list.add(String.valueOf(excelDataItem.getOriginalRange()));
+                    list.add(String.valueOf(excelDataItem.getX()));
+                    list.add(String.valueOf(excelDataItem.getY()));
+                    list.add(String.valueOf(excelDataItem.getBias()));
                     for (int j = 0; j < list.size(); j++) {
-                        sheet.addCell(new Label(i, j+1, list.get(j), arial12format));
+                        sheet.addCell(new Label(j, i+1, list.get(j), arial12format));
                         if (list.get(j).length() <= 4) {
                             sheet.setColumnView(j, list.get(j).length()+8);
                         }

@@ -9,6 +9,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
     }
     buildTypes {
         release {
@@ -39,4 +42,6 @@ dependencies {
     implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
     implementation files('libs/tbs_sdk_thirdapp_v3.2.0.1104_43200_sharewithdownload_withfilereader_withoutGame_obfs_20170609_115346.jar')
     implementation 'gdut.bsx:share2:0.9.3'
+    implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'pub.devrel:easypermissions:0.4.3'
 }
